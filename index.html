@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html>
+	<head>
+		<title>CPSC 3720 Calls Project</title>
+		
+		<!--
+		 This is the main css file for the project.
+		 -->
+		<link rel="stylesheet" type="text/css" href="mainStyle.css">
+		
+		<!--
+		 CSS Files for the calendar
+		 -->
+		 
+		<link rel='stylesheet' type='text/css' href='fullcalendar/fullcalendar.css' />
+		<link rel='stylesheet' type='text/css' href='fullcalendar/fullcalendar.print.css' media='print' />
+		
+		<!-- 
+		 Load jQuery and jQueryui from google
+		 -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+		
+		<!-- 
+		 Load calendar javascript
+		 -->
+		<script type='text/javascript' src='fullcalendar/fullcalendar.min.js'></script>
+		
+		<!--
+		 Load jquery for gCal imports
+		 -->
+		<script type='text/javascript' src='fullcalendar/gcal.js'></script>
+		
+		<!-- 
+		 Set up the calendar
+		 -->
+		<script type='text/javascript'>
+			$(document).ready(function() {
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+				
+				$('#calendar').fullCalendar({
+					editable:false,
+					eventClick: function(event){
+						alert('Doctor: ' + event.title + '\n' + 'Contact: ' + event.contact);
+					},
+					eventSources: [	
+						{
+							events:[
+								{
+									
+									title: 'Doctor A',
+									start: new Date(y,m,1),
+									end: new Date(y,m,3),
+									allDay: true,
+									contact: 'xxx-xxx-xxxx',
+								},
+								{
+									title: 'Doctor B',
+									start: new Date(y,m,4),
+								},
+								{
+									title: 'Doctor C',
+									start: new Date(y,m,5)
+								},
+								{
+									title: 'Doctor D',
+									start: new Date(y,m,6)
+								},
+								{
+									title: 'Doctor A',
+									start: new Date(y,m,7)						
+								},
+								{
+									title: 'Doctor E',
+									start: new Date(y,m,8),
+									end: new Date(y,m,10)
+								}
+							]	
+						},
+						{
+						url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+						color: 'black',
+						textColor: 'white'
+						}
+					]
+				});
+			});
+		</script>
+				
+	</head>
+	<body>
+		<header>
+			<h1>Calls Project</h1>
+		</header>
+		<div id="navigation">
+		</div>
+		<div id="content">
+		<div id="calendar"></div>
+		</div>
+		
+		<footer>
+			<h4>Created by:</h4>
+		</footer>
+	</body>
+</html>
