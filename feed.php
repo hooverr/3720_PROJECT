@@ -9,53 +9,53 @@
 		array(
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-01"
+			'start' => "$year-$month-01",
 			
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-02"
+			'start' => "$year-$month-02",
 			
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-03"
+			'start' => "$year-$month-03",
 			
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-10"
+			'start' => "$year-$month-10",
 			
 			
 		),
 		array(
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-04"
+			'start' => "$year-$month-04",
 			
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-06"
+			'start' => "$year-$month-06",
 			
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-11"
+			'start' => "$year-$month-11",
 		
 		),
 		
 		array(
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-05"
+			'start' => "$year-$month-05",
 			
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-07"
+			'start' => "$year-$month-07",
 			
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-08"
+			'start' => "$year-$month-08",
 			
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-09"
+			'start' => "$year-$month-09",
 		
 		)
 
