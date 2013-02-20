@@ -9,8 +9,10 @@
 		array(
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-01",		
-			
+			'start' => "$year-$month-01",	
+			'title' => "DoctorA",
+			'contact' => "xxx-xxx-xxxx",
+			'start' => "$year-$month-02",	
 		),
 		array(
 			'title' => "DoctorB",
