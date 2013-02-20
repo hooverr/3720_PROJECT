@@ -1,13 +1,30 @@
+* { 
+    margin: 0; 
+    padding: 0;
+} 
+
 body{
-background-color: white;
+	background-color: #FFFFF2;
 }
+
+header{
+	background-color: #ECF1EF;
+	text-align: center;
+}
+
 
 #content {
-	background-color: white;
+	background-color: #FFFFFF;
 	width: 960px;
 	margin:0 auto;
+
 }
 
+#navigation{
+	height:25px;
+	text-align: center;
+	background-color: #F1EDC2;
+}
 #calendar {
 		width: 900px;
 		margin: 0 auto;

@@ -16,7 +16,6 @@
 		),
 		
 		array(
-		
 			'id' => 1,
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
@@ -30,13 +29,6 @@
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-03",
 		
-		),
-		
-		array(
-			'id' => 1,
-			'title' => "DoctorA",
-			'contact' => "xxx-xxx-xxxx",
-			'start' => "$year-$month-01",	
 		),
 		
 		array(
