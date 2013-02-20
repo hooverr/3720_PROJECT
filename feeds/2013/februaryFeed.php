@@ -13,6 +13,7 @@
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-01",	
+			'backgroundColor' => "#0000FF",
 		),
 		
 		array(
@@ -20,6 +21,7 @@
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-02",
+			'backgroundColor' => "#0000FF",
 		
 		),
 		
@@ -28,6 +30,7 @@
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-03",
+			'backgroundColor' => "#0000FF",
 		
 		),
 		
@@ -37,6 +40,7 @@
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-04",
+			'backgroundColor' => "#5F9EA0",
 		
 		),
 		
@@ -45,6 +49,7 @@
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-05",
+			'backgroundColor' => "#0000FF",
 		
 		),
 		
@@ -54,6 +59,7 @@
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-06",
+			'backgroundColor' => "#0000FF",
 		
 		),
 		
@@ -62,6 +68,7 @@
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-07",
+			'backgroundColor' => "#5F9EA0",
 		
 		),
 		
@@ -70,6 +77,7 @@
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-08",
+			'backgroundColor' => "#DEB887",
 		
 		),
 		array(
@@ -77,6 +85,7 @@
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-09",
+			'backgroundColor' => "#DEB887",
 		
 		),
 		array(
@@ -84,6 +93,7 @@
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-10",
+			'backgroundColor' => "#DEB887",
 		
 		),
 		
