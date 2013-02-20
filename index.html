@@ -42,48 +42,19 @@
 				var y = date.getFullYear();
 				
 				$('#calendar').fullCalendar({
+					firstDay:0; //Sets the calendars first day, 0 for sunday, 1 for monday etc
 					editable:false,
 					eventClick: function(event){
 						alert('Doctor: ' + event.title + '\n' + 'Contact: ' + event.contact);
 					},
 					eventSources: [	
 						{
-							events:[
-								{
-									
-									title: 'Doctor A',
-									start: new Date(y,m,1),
-									end: new Date(y,m,3),
-									allDay: true,
-									contact: 'xxx-xxx-xxxx',
-								},
-								{
-									title: 'Doctor B',
-									start: new Date(y,m,4),
-								},
-								{
-									title: 'Doctor C',
-									start: new Date(y,m,5)
-								},
-								{
-									title: 'Doctor D',
-									start: new Date(y,m,6)
-								},
-								{
-									title: 'Doctor A',
-									start: new Date(y,m,7)						
-								},
-								{
-									title: 'Doctor E',
-									start: new Date(y,m,8),
-									end: new Date(y,m,10)
-								}
-							]	
-						},
-						{
 						url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
 						color: 'black',
 						textColor: 'white'
+						}
+						{
+						url: 'feed.php'
 						}
 					]
 				});
