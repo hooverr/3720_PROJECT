@@ -5,11 +5,11 @@
 	
 	
 	//Each day is an array
-	//ID is unique to the day 020113 mdy
+	//ID is unique to the day 02-01-13 mdy
 	echo json_encode(array(
 	
 		array(
-			'id' => 020113,
+			'id' => "02-01-13",
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-01",	
@@ -17,7 +17,7 @@
 		),
 		
 		array(
-			'id' => 020213,
+			'id' => "02-02-13",
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-02",
@@ -26,7 +26,7 @@
 		),
 		
 		array(
-			'id' => 020313,
+			'id' => "02-03-13",
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-03",
@@ -36,7 +36,7 @@
 		
 		array(
 		
-			'id' => 020413,
+			'id' => "02-04-13",
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-04",
@@ -45,7 +45,7 @@
 		),
 		
 		array(
-			'id' => 020513,
+			'id' => "02-05-13",
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-05",
@@ -55,7 +55,7 @@
 		
 		array(
 		
-			'id' => 020613,
+			'id' => "02-06-13",
 			'title' => "DoctorA",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-06",
@@ -64,7 +64,7 @@
 		),
 		
 		array(
-			'id' => 020713,
+			'id' => "02-07-13",
 			'title' => "DoctorB",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-07",
@@ -73,7 +73,7 @@
 		),
 		
 		array(
-			'id' => 020813,
+			'id' => "02-08-13",
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-08",
@@ -81,7 +81,7 @@
 		
 		),
 		array(
-			'id' => 020913,
+			'id' => "02-09-13",
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-09",
@@ -89,7 +89,7 @@
 		
 		),
 		array(
-			'id' => 021013,
+			'id' => "02-10-13",
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-10",
