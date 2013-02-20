@@ -30,7 +30,7 @@
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-03",
 		
-		)
+		),
 		
 		array(
 			'id' => 1,
@@ -54,7 +54,7 @@
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-05",
 		
-		)
+		),
 		
 		array(
 		
@@ -71,7 +71,7 @@
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-07",
 		
-		)
+		),
 		
 		array(
 			'id' => 3,
@@ -79,21 +79,21 @@
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-08",
 		
-		)
+		),
 		array(
 			'id' => 3,
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-09",
 		
-		)
+		),
 		array(
 			'id' => 3,
 			'title' => "DoctorC",
 			'contact' => "xxx-xxx-xxxx",
 			'start' => "$year-$month-10",
 		
-		)
+		),
 		
 		
 
