@@ -1,7 +1,7 @@
 <?php
 	
 	$year = date('Y');
-	$month = 02;
+	$month = date('m');
 	
 	
 	echo json_encode(array(
