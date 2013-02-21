@@ -17,7 +17,8 @@ header{
 #content {
 	background-color: #FFFFFF;
 	width: 960px;
-	margin:0 auto;
+	margin:25px auto;
+	padding-top:25px;
 
 }
 
