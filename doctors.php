@@ -11,12 +11,14 @@
 		<header>
 			<h1>Calls Project</h1>
 		</header>
-		<div id="navigation">
-			<a href="index.html">Schedule</a>
-			<a href="doctors.php">Doctors</a>
-			<a href="requests.php">Requests</a>
-			<a href="reports.php">Reports</a>
-		</div>
+		<nav id="navigation">
+			<ul>
+				<li><a href="index.html">Schedule</a></li>
+				<li id="current"><a href="doctors.php">Doctors</a></li>
+				<li><a href="requests.php">Requests</a></li>
+				<li><a href="reports.php">Reports</a></li>
+			</ul>
+		</nav>
 		<div id="content">
 			<div id="calendar"></div>
 		</div>
