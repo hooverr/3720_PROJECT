@@ -1,0 +1,17 @@
+[
+	{ 
+		"id":"2013-02-01",
+		"title":"DoctorA",
+		"contact":"xxx-xxxx-xxxx",
+		"start":"2013-02-01",
+		"className":"doctorColorOne"
+	},
+	{ 
+		"id":"2013-02-02",
+		"title":"DoctorA",
+		"contact":"xxx-xxxx-xxxx",
+		"start":"2013-02-02",
+		"className":"doctorColorOne"
+	}
+	
+]
