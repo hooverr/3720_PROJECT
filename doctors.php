@@ -12,7 +12,48 @@
 		<link rel="stylesheet" type="text/css" href="resources/css/smoothness/jquery-ui-1.10.1.custom.min.css"/>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+				<script type="text/javascript">
+			
+		function changeFunc()
+		{
+			$(":submit").val($("#funcSelect").val());
+			if($("#funcSelect").val() == "Update")
+			{
+				var vals = $('select[name="doc"] option:selected').text().split(" ");
+				$('input[name="firstName"]').val(vals[0]);
+				$('input[name="lastName"]').val(vals[1]);
+				$('input[name="phoneNumber"]').val($('select[name="doc"] option:selected').val().split("|")[1]);
+				$( 'input[name="startDatePicker"]' ).show();
+				$( "#startDatePickerLabel" ).show();
+				$( 'input[name="endDatePicker"]' ).hide();
+				$( "#endDatePickerLabel" ).hide();
+				
+			}
+			else if($("#funcSelect").val() == "Add")
+			{
+				$( 'input[name="startDatePicker"]' ).show();
+				$( "#startDatePickerLabel" ).show();
+				$( 'input[name="endDatePicker"]' ).hide();
+				$( "#endDatePickerLabel" ).hide();
+			}
+			else
+			{
+				$( 'input[name="startDatePicker"]' ).hide();
+				$( "#startDatePickerLabel" ).hide();
+				$( 'input[name="endDatePicker"]' ).show();
+				$( "#endDatePickerLabel" ).show();
+			}
+		}
+			
+			
+		$(function() {
+		$( 'input[name="startDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
+	
+		$( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
 		
+		changeFunc();
+		});
+		</script>
 	</head>
 	<body>
 		<header>
@@ -207,48 +248,7 @@
 				</form>
 			</center>
 		</div>
-		<script type="text/javascript">
-			
-		function changeFunc()
-		{
-			$(":submit").val($("#funcSelect").val());
-			if($("#funcSelect").val() == "Update")
-			{
-				var vals = $('select[name="doc"] option:selected').text().split(" ");
-				$('input[name="firstName"]').val(vals[0]);
-				$('input[name="lastName"]').val(vals[1]);
-				$('input[name="phoneNumber"]').val($('select[name="doc"] option:selected').val().split("|")[1]);
-				$( 'input[name="startDatePicker"]' ).show();
-				$( "#startDatePickerLabel" ).show();
-				$( 'input[name="endDatePicker"]' ).hide();
-				$( "#endDatePickerLabel" ).hide();
-				
-			}
-			else if($("#funcSelect").val() == "Add")
-			{
-				$( 'input[name="startDatePicker"]' ).show();
-				$( "#startDatePickerLabel" ).show();
-				$( 'input[name="endDatePicker"]' ).hide();
-				$( "#endDatePickerLabel" ).hide();
-			}
-			else
-			{
-				$( 'input[name="startDatePicker"]' ).hide();
-				$( "#startDatePickerLabel" ).hide();
-				$( 'input[name="endDatePicker"]' ).show();
-				$( "#endDatePickerLabel" ).show();
-			}
-		}
-			
-			
-		$(function() {
-		$( 'input[name="startDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
-	
-		$( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
-		
-		changeFunc();
-		});
-		</script>
+
 		<footer></footer>
 	</body>
 </html>
