@@ -131,7 +131,7 @@
 									
 													mysql_select_db("robh_3720",$link);
 				
-													$result = mysql_query('SELECT * from 3720Project.Doctor');
+													$result = mysql_query('SELECT * from Doctor');
 													if (!$result) {
 													    die('Invalid query: ' . mysql_error());
 													}
@@ -232,7 +232,7 @@
 			
 							mysql_select_db("robh_3720",$link);
 	
-							$result = mysql_query('SELECT * from 3720Project.Doctor');
+							$result = mysql_query('SELECT * from Doctor');
 							if (!$result) {
 							    die('Invalid query: ' . mysql_error());
 							}
