@@ -87,7 +87,7 @@
 		?>
 		<nav id="navigation">
 			<ul>
-				<li><a href="index.html">Schedule</a></li>
+				<li><a href="index.php">Schedule</a></li>
 				<li id="current"><a href="doctors.php">Doctors</a></li>
 				<li><a href="requests.php">Requests</a></li>
 				<li><a href="reports.php">Reports</a></li>
