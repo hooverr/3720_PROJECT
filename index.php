@@ -6,7 +6,7 @@
 		<!--
 		 This is the main css file for the project.
 		 -->
-		<link rel="stylesheet" type="text/css" href="mainStyle.css">
+		<link rel="stylesheet" type="text/css" href="mainStyle.php">
 		
 		<!--
 		 CSS Files for the calendar
