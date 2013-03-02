@@ -164,6 +164,21 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
     return sched;
 }
 
+/* 
+    Function: sort
+
+    sort the given multidimensional array in ascending order based on the given parameter to sort by
+
+    Parameters:
+
+        arrayToSort - array to be sorted
+		sortBy - the position in the multidimensional array to sort by
+    
+    Returns:
+
+        the sorted array
+
+*/
 function sort(arrayToSort, sortBy) {
     // sort array based on sortBy
     arrayToSort.sort(function (a, b) {
@@ -174,6 +189,23 @@ function sort(arrayToSort, sortBy) {
     return arrayToSort;
 }
 
+/* 
+    Function: findDoctor
+
+    Finds the doctor to be scheduled for the given day
+
+    Parameters:
+
+        dayType - type of day (holiday = 1, weekend = 2, weekday = 3)
+		date - the day of the month (integer)
+		doctors - the array of doctors (already sorted by the days worked of given type)
+		requests - the array of requests (already sorted by the date of the request)
+    
+    Returns:
+
+        an integer index in the doctor array of the doctor to be scheduled
+
+*/
 function findDoctor(dayType, date, doctors, requests) {
     //temporary variable to store docID
     var docID;

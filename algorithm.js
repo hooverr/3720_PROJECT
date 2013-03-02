@@ -17,7 +17,6 @@
 
 */
 function schedAlgorithm(doctors, requests, month, year, holidays) {
-
     var numDays; // variable: number of days in the month to be scheduled
 
     // switch statement to assign number of days to schedule
@@ -51,6 +50,12 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
     // array: will contain the schedule information
     var sched = new Array();
 
+    // array: will contain the sorted doctor array
+    var docSorted = new Array();
+
+    // array: will contain the sorted requests array
+    var reqSorted = new Array();
+
     // boolean: day is holiday
     var holiday = false;
 
@@ -63,9 +68,16 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
     // integer: variable to store the previously assigned doctor ID
     var prevDocID;
 
+    // variable: contain the doctorID to add to the schedule
+    var docPosition;
+
+    // variable: to contain an integer representation of day of week (0=Sun, 1=Mon, ...)
+    var day
+
     // loop through each day of the month to generate the schedule
     for (var i = 0; i < numDays; i++) {
-        if (holiday[x] == i) {
+
+        if (holiday[x] == i + 1) {
             holiday = true;
             x++;
         } else {
@@ -73,9 +85,7 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
         }
 
         // variable: for the day of the week based on month, year, and current iteration through the loop
-        var day = new Date(year, month, i + 1).getDay();
-
-        var doctorFound = false;
+        day = new Date(year, month, i + 1).getDay();
 
         switch (day) {
 
@@ -89,77 +99,17 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
                 if (i != 0) {
                     // assign doctor to sched array
                     sched[i] = prevDocID;
-                }
-                    // currently if the month starts on a weekend it does not carry forward the doctor from the previous month to continue the weekend
-                    // so we require scheduling a new doctor
-                else {
+                    //increment doctors weekend days worked
+                    doctors[docPosition][2] += 1;
+                } else {
+                    docSorted = sort(doctors, 2).slice();
+                    reqSorted = sort(requests, 2).slice();
 
-                    //find appropriate doctor
-                    doctors.sort(function (a, b) {
-                        if (a[2] == b[2]) return 0;
-                        return a[2] < b[2] ? -1 : 1;
-                    });
+                    docPosition = findDoctor(2, docSorted, reqSorted);
 
-                    requests.sort(function (a, b) {
-                        if (a[2] == b[2]) return 0;
-                        return a[2] > b[2] ? -1 : 1;
-                    });
-
-                    // variable: contain the doctorID to add to the schedule
-                    var docID;
-
-                    // for loop to iterate through the doctors array
-                    for (var r = 0; r < doctors.length && !doctorFound; r++) {
-                        // for loop to iterate through the request array
-                        for (var j = 0; j < requests.length && !doctorFound; j++) {
-                            // if request on
-                            if (requests[j][1] == 1) {
-                                // if request is for current day
-                                if (requests[j][2] == i) {
-                                    // assign doctor id
-                                    docID = requests[j][0];
-                                    // increment weekend days worked for assigned doctor
-                                    if (day = 6) {
-                                        doctors[r][2] += 2;
-                                    } else {
-                                        doctors[r][2] += 1;
-                                    }
-                                    // assign boolean doctor found
-                                    doctorFound = true;
-                                }
-                            }
-                                // if request off
-                            else if (requests[j][1] == 0) {
-                                // if request is for current day
-                                if (requests[j][2] == i) {
-                                    // if doctor id matches request doctor id
-                                    if (doctors[r][0] == requests[j][0]) {
-                                        // breaks nested for loop, moves on to next doctor
-                                        break;
-                                    }
-                                }
-                                    // if requests array has moved beyond current day
-                                else if (requests[j][2] > i) {
-                                    // assign doctor id
-                                    docID = doctors[r][0];
-                                    // increment weekend days worked for assigned doctor
-                                    if (day = 6) {
-                                        doctors[r][2] += 2;
-                                    } else {
-                                        doctors[r][2] += 1;
-                                    }
-                                    // assign boolean doctor found
-                                    doctorFound = true;
-                                }
-                            }
-                        }
-                    }
-
-                    // Assign doctor scheduled for weekend day to prevDocID in order to 'reuse' for next day
-                    prevDocID = docID;
-
-                    // assign doctor to sched array
-                    sched[i] = docID;
+                    sched[i] = docSorted[docPosition][0];
+                    docSorted[docPosition][2] += 1;
+                    doctors = docSorted.slice();
                 }
 
                 break;
@@ -169,176 +119,127 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
                 if (holiday || wEndHoliday) {
                     // reset weekend holiday boolean to false
                     wEndHoliday = false;
-
-                    // assign doctor to sched array
-                    sched[i] = prevDocID;
+                    sched[i] = doctors[docPosition][0];
+                    doctors[docPosition][1] += 1;
                     break;
                 } else {
-                    //find appropriate doctor
+                    docSorted = sort(doctors, 3).slice();
+                    reqSorted = sort(requests, 2).slice();
 
+                    docPosition = findDoctor(2, i, docSorted, reqSorted);
 
-                    //sched[i] = docID; // commenting these two lines out can carry cause Monday to carry forward,
-                    //break;            // using the same calculation and assignment as Tues-Thurs
+                    sched[i] = docSorted[docPosition][0];
+                    docSorted[docPosition][3] += 1;
+                    doctors = docSorted.slice();
+                    break;
                 }
             case 2: //Tuesday
             case 3: //Wednesday
             case 4: //Thurday
-                doctors.sort(function (a, b) {
-                    if (a[3] == b[3]) return 0;
-                    return a[3] < b[3] ? -1 : 1;
-                });
+                docSorted = sort(doctors, 3).slice();
+                reqSorted = sort(requests, 2).slice();
 
-                requests.sort(function (a, b) {
-                    if (a[2] == b[2]) return 0;
-                    return a[2] > b[2] ? -1 : 1;
-                });
+                docPosition = findDoctor(3, i, docSorted, reqSorted);
 
-                // variable: contain the doctorID to add to the schedule
-                var docID;
-
-                // for loop to iterate through the doctors array
-                for (var r = 0; r < doctors.length && !doctorFound; r++) {
-                    // for loop to iterate through the request array
-                    for (var j = 0; j < requests.length && !doctorFound; j++) {
-                        // if request on
-                        if (requests[j][1] == 1) {
-                            // if request is for current day
-                            if (requests[j][2] == i) {
-                                // assign doctor id
-                                docID = requests[j][0];
-                                if (holiday) {
-                                    // increment holiday days worked for assigned doctor
-                                    doctors[r][1] += 1;
-                                } else {
-                                    // increment weekday days worked for assigned doctor
-                                    doctors[r][3] += 1;
-                                }
-                                // assign boolean doctor found
-                                doctorFound = true;
-                            }
-                        }
-                            // if request off
-                        else if (requests[j][1] == 0) {
-                            // if request is for current day
-                            if (requests[j][2] == i) {
-                                // if doctor id matches request doctor id
-                                if (doctors[r][0] == requests[j][0]) {
-                                    // breaks nested for loop, moves on to next doctor
-                                    break;
-                                }
-                            }
-                                // if requests array has moved beyond current day
-                            else if (requests[j][2] > i) {
-                                // assign doctor id
-                                docID = doctors[r][0];
-                                // increment weekday days worked for assigned doctor
-                                doctors[r][3] += 1;
-                                // assign boolean doctor found
-                                doctorFound = true;
-                            }
-                        }
-                    }
-                }
-
-                // Assign doctor to schedule array
-                sched[i] = docID;
+                sched[i] = docSorted[docPosition][0];
+                docSorted[docPosition][3] += 1;
+                doctors = docSorted.slice();
                 break;
             case 5: //Friday
-                //find appropriate doctor
-                doctors.sort(function (a, b) {
-                    if (a[2] == b[2]) return 0;
-                    return a[2] < b[2] ? -1 : 1;
-                });
+                docSorted = sort(doctors, 3).slice();
+                reqSorted = sort(requests, 2).slice();
 
-                requests.sort(function (a, b) {
-                    if (a[2] == b[2]) return 0;
-                    return a[2] > b[2] ? -1 : 1;
-                });
+                docPosition = findDoctor(3, i, docSorted, reqSorted);
 
-                // variable: contain the doctorID to add to the schedule
-                var docID;
-
-                // for loop to iterate through the doctors array
-                for (var r = 0; r < doctors.length && !doctorFound; r++) {
-                    // for loop to iterate through the request array
-                    for (var j = 0; j < requests.length && !doctorFound; j++) {
-                        // if request on
-                        if (requests[j][1] == 1) {
-                            // if request is for current day
-                            if ((requests[j][2] == i) || (requests[j][2] == i + 1) || (requests[j][2] == i + 2)) {
-                                // assign doctor id
-                                docID = requests[j][0];
-                                if (holiday) {
-                                    // increment holiday days worked for assigned doctor
-                                    doctors[r][1] += 1;
-                                    // increment weekend days worked for assigned doctor
-                                    if (i + 2 < numDays) {
-                                        doctors[r][2] += 2;
-                                    } else if (i + 1 < numDays) {
-                                        doctors[r][2] += 1;
-                                    }
-                                } else {
-                                    // increment weekday days worked for assigned doctor
-                                    doctors[r][3] += 1;
-                                    // increment weekend days worked for assigned doctor
-                                    if (i + 2 < numDays) {
-                                        doctors[r][2] += 2;
-                                    } else if (i + 1 < numDays) {
-                                        doctors[r][2] += 1;
-                                    }
-                                }
-                                // assign boolean doctor found
-                                doctorFound = true;
-                            }
-                        }
-                            // if request off
-                        else if (requests[j][1] == 0) {
-                            // if request is for current day
-                            if ((requests[j][2] == i) || (requests[j][2] == i + 1) || (requests[j][2] == i + 2)) {
-                                // if doctor id matches request doctor id
-                                if (doctors[r][0] == requests[j][0]) {
-                                    // breaks nested for loop, moves on to next doctor
-                                    break;
-                                }
-                            }
-                                // if requests array has moved beyond current day
-                            else if (requests[j][2] > i) {
-                                // assign doctor id
-                                docID = doctors[r][0];
-
-                                if (holiday) {
-                                    // increment holidays days worked for assigned doctor
-                                    doctors[r][1] += 1;
-                                } else {
-                                    // increment weekday days worked for assigned doctor
-                                    doctors[r][3] += 1;
-                                }
-
-
-                                // increment weekend days worked for assigned doctor
-                                if (i + 2 < numDays) {
-                                    doctors[r][2] += 2;
-                                } else if (i + 1 < numDays) {
-                                    doctors[r][2] += 1;
-                                }
-
-                                // assign boolean doctor found
-                                doctorFound = true;
-                            }
-                        }
-                    }
-                    if (holiday[x] == i + 3) {
-                        // increment holiday days worked for assigned doctor
-                        doctors[r][1] += 1;
-                    }
-                }
-
-                // Assign doctor scheduled for Friday to prevDocID in order to 'reuse' for Saturday and Sunday
-                prevDocID = docID;
-
-                // Assign doctor to schedule array
-                sched[i] = docID;
+                sched[i] = docSorted[docPosition][0];
+                prevDocID = docSorted[docPosition][0];
+                docSorted[docPosition][3] += 1;
+                doctors = docSorted.slice();
                 break;
         }
     }
+    return sched;
+}
+
+/* 
+    Function: sort
+
+    sort the given multidimensional array in ascending order based on the given parameter to sort by
+
+    Parameters:
+
+        arrayToSort - array to be sorted
+		sortBy - the position in the multidimensional array to sort by
+    
+    Returns:
+
+        the sorted array
+
+*/
+function sort(arrayToSort, sortBy) {
+    // sort array based on sortBy
+    arrayToSort.sort(function (a, b) {
+        if (a[sortBy] == b[sortBy]) return 0;
+        return a[sortBy] < b[sortBy] ? -1 : 1;
+    });
+
+    return arrayToSort;
+}
+
+/* 
+    Function: findDoctor
+
+    Finds the doctor to be scheduled for the given day
+
+    Parameters:
+
+        dayType - type of day (holiday = 1, weekend = 2, weekday = 3)
+		date - the day of the month (integer)
+		doctors - the array of doctors (already sorted by the days worked of given type)
+		requests - the array of requests (already sorted by the date of the request)
+    
+    Returns:
+
+        an integer index in the doctor array of the doctor to be scheduled
+
+*/
+function findDoctor(dayType, date, doctors, requests) {
+    //temporary variable to store docID
+    var docID;
+
+    if (requests.length != 0) {
+        var r;
+        var j;
+
+        // for loop to iterate through the request array
+        for (j = 0; j < requests.length; j++) {
+            // if request on
+            if (requests[j][1] == 1) {
+                // if request is for current day
+                if (requests[j][2] == date) {
+                    for (r = 0; r < doctors.length; r++) {
+                        if (doctors[r][0] == requests[j][0]) {
+                            //return position of doctor id matching the doctor id for the request on
+                            return r;
+                        }
+                    }
+                }
+            }
+                // if request off
+            else if (requests[j][1] == 0) {
+
+                // if request is for current day
+                if (requests[j][2] == date) {
+                    for (r = 0; r < doctors.length; r++) {
+                        if (doctors[r][0] != requests[j][0]) {
+                            //return position of doctor id matching the doctor id for the request on
+                            return r;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var defaultValue = 0;
+    return defaultValue;
 }
