@@ -41,40 +41,43 @@ class ScheduleCreator{
 	}
 }
 
-/*Test code 
-  This works, just need to implement on live server once scheduling algorithm is complete
-
-$class = new ScheduleCreator();
-$testArray= array(1,2,3,3,3,6,7,8);
-$temp = $class->createScheduleArray($testArray,02,2013);
-
-//encode the array to be put into the database
-$insert = json_encode($temp);
-$mysqli = new mysqli('localhost','robh_user','','robh_3720');
-
-if ($mysqli->connect_error) {
-    die('Connect Error (' . $mysqli->connect_errno . ') '
-            . $mysqli->connect_error);
-}
-
-$query = "INSERT INTO schedule VALUES (2, 20,'$insert')";
-$mysqli->query($query);
 
 
 
 
-$query2 = "SELECT Schedule FROM schedule WHERE Month = 2 AND Year = 20";
-
-$result = $mysqli->query($query2);
-
-$row = $result->fetch_array(MYSQL_ASSOC);
-
-$decode = json_decode($row["Schedule"]);
-
-//not needed just a test to see if you can return it back to a proper php array
-echo var_dump($decode);
-$mysqli->close();
 
 
-*/
+if(isset($_REQUEST['data'])){
+  $class = new ScheduleCreator();
+  $testArray= json_decode($_REQUEST['data']);
+  //array(1,2,3,3,3,6,7,8);
+  $temp = $class->createScheduleArray($testArray,02,2013);
+
+  //encode the array to be put into the database
+  $insert = json_encode($temp);
+  $mysqli = new mysqli('localhost','robh_user','','robh_3720');
+
+  if ($mysqli->connect_error) {
+      die('Connect Error (' . $mysqli->connect_errno . ') '
+              . $mysqli->connect_error);
+  }
+
+  $query = "INSERT INTO schedule VALUES (2, 20,'$insert')";
+  $mysqli->query($query);
+
+
+
+
+  $query2 = "SELECT Schedule FROM schedule WHERE Month = 2 AND Year = 20";
+
+  $result = $mysqli->query($query2);
+
+  $row = $result->fetch_array(MYSQL_ASSOC);
+
+  $decode = json_decode($row["Schedule"]);
+
+  //not needed just a test to see if you can return it back to a proper php array
+  echo var_dump($decode);
+  $mysqli->close();
+  }
 ?>

@@ -1,6 +1,9 @@
 <html>
 <head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 <script type="text/javascript">
+
 /* 
     Function: schedAlgorithm
 
@@ -265,15 +268,23 @@ function prepareAlgorithm() {
 
     var results = new Array();
     results = schedAlgorithm(doctors, requests, month, year, holidays);
-
-	document.write(results);
+	return results;  
 }
+function postData(){
+  var data = prepareAlgorithm();
+  
+
+  data = JSON.stringify(data);
+  $.post('../scheduleCreator.php', { 'data': data });
+  alert(JSON.stringify(data))
+}
+
 </script> 
 
 </head>
 <body>
-<script type="text/javascript">
-prepareAlgorithm();
+<script type ="text/javascript">
+postData();
 </script>
 
 </body>
