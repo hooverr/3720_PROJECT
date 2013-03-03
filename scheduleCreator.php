@@ -55,7 +55,7 @@ if(isset($_REQUEST['data'])){
 
   //encode the array to be put into the database
   $insert = json_encode($temp);
-  $mysqli = new mysqli('localhost','robh_user','','robh_3720');
+  $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
 
   if ($mysqli->connect_error) {
       die('Connect Error (' . $mysqli->connect_errno . ') '
