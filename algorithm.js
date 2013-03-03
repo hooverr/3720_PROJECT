@@ -77,7 +77,7 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
     // loop through each day of the month to generate the schedule
     for (var i = 0; i < numDays; i++) {
 
-        if (holiday[x] == i + 1) {
+        if (holidays[x] == i + 1) {
             holiday = true;
             x++;
         } else {
@@ -142,7 +142,11 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
                 docPosition = findDoctor(3, i, docSorted, reqSorted);
 
                 sched[i] = docSorted[docPosition][0];
-                docSorted[docPosition][3] += 1;
+                if (holiday)
+                    docSorted[docPosition][1] += 1;
+                else
+                    docSorted[docPosition][3] += 1;
+
                 doctors = docSorted.slice();
                 break;
             case 5: //Friday
@@ -153,11 +157,16 @@ function schedAlgorithm(doctors, requests, month, year, holidays) {
 
                 sched[i] = docSorted[docPosition][0];
                 prevDocID = docSorted[docPosition][0];
-                docSorted[docPosition][3] += 1;
+                if (holiday)
+                    docSorted[docPosition][1] += 1;
+                else
+                    docSorted[docPosition][3] += 1;
+
                 doctors = docSorted.slice();
                 break;
         }
     }
+
     return sched;
 }
 
