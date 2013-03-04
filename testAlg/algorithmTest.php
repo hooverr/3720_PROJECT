@@ -287,6 +287,7 @@ function postData(){
   $.post('../scheduleCreator.php', { 'data': data });
   alert(JSON.stringify(data));
 	
+	document.write(results);
 	
 }
 
