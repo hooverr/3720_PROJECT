@@ -64,20 +64,6 @@ if(isset($_REQUEST['data'])){
 
   $query = "INSERT INTO schedule VALUES (2, 20,'$insert')";
   $mysqli->query($query);
-
-
-
-
-  $query2 = "SELECT Schedule FROM schedule WHERE Month = 2 AND Year = 20";
-
-  $result = $mysqli->query($query2);
-
-  $row = $result->fetch_array(MYSQL_ASSOC);
-
-  $decode = json_decode($row["Schedule"]);
-
-  //not needed just a test to see if you can return it back to a proper php array
-  echo var_dump($decode);
   $mysqli->close();
   }
 ?>
