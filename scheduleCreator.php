@@ -47,11 +47,12 @@ class ScheduleCreator{
 
 
 
-if(isset($_REQUEST['data'])){
+//if(isset($_REQUEST['data'])){
   $class = new ScheduleCreator();
   $testArray= array(1,2,3,3,3,6,7,8);
   //json_decode($_REQUEST['data']);
-  
+  $username = "robh_user";
+	$password = "3720project";
   $temp = $class->createScheduleArray($testArray,02,2013);
 
   //encode the array to be put into the database
@@ -67,9 +68,6 @@ if(isset($_REQUEST['data'])){
   $query = "INSERT INTO schedule VALUES (2, 20,'test')";
   mysql_query($query);
 
-
-  
-
   $query2 = "SELECT Schedule FROM schedule WHERE Month = 2 AND Year = 20";
 
   $result = mysql_query($query2);
@@ -83,5 +81,5 @@ if(isset($_REQUEST['data'])){
   
   mysql_free_result($result);
 	mysql_close($link);
-  }
+ // }
 ?>
