@@ -277,7 +277,6 @@ function prepareAlgorithm() {
 
     var results = new Array();
     results = schedAlgorithm(doctors, requests, month, year, holidays);
-<<<<<<< HEAD:testAlg/algorithmTest.php
 	return results;  
 }
 function postData(){
@@ -286,12 +285,10 @@ function postData(){
 
   data = JSON.stringify(data);
   $.post('../scheduleCreator.php', { 'data': data });
-  alert(JSON.stringify(data))
-=======
+  alert(JSON.stringify(data));
 	
 	document.write(results);
 	
->>>>>>> Updates made to algorithm:testAlg/algorithmTest.html
 }
 
 </script> 
