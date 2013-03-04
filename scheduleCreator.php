@@ -49,8 +49,9 @@ class ScheduleCreator{
 
 if(isset($_REQUEST['data'])){
   $class = new ScheduleCreator();
-  $testArray= json_decode($_REQUEST['data']);
-  //array(1,2,3,3,3,6,7,8);
+  $testArray= array(1,2,3,3,3,6,7,8);
+  //json_decode($_REQUEST['data']);
+  
   $temp = $class->createScheduleArray($testArray,02,2013);
 
   //encode the array to be put into the database
@@ -66,7 +67,7 @@ if(isset($_REQUEST['data'])){
   $mysqli->query($query);
 
 
-
+  
 
   $query2 = "SELECT Schedule FROM schedule WHERE Month = 2 AND Year = 20";
 
@@ -78,6 +79,7 @@ if(isset($_REQUEST['data'])){
 
   //not needed just a test to see if you can return it back to a proper php array
   echo var_dump($decode);
+  
   $mysqli->close();
   }
 ?>
