@@ -63,7 +63,7 @@ if(isset($_REQUEST['data'])){
               . $mysqli->connect_error);
   }
 
-  $query = "INSERT INTO schedule VALUES (2, 20,'$insert')";
+  $query = "INSERT INTO schedule VALUES (2, 20,'test')";
   $mysqli->query($query);
 
 
