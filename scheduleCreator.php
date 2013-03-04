@@ -64,7 +64,7 @@ if(isset($_REQUEST['data'])){
 			
 	mysql_select_db("robh_3720",$link);
 
-  $query = "INSERT INTO schedule VALUES (2, 20,'$insert')";
+  $query = "INSERT INTO schedule VALUES (2, 20,'test')";
   mysql_query($query);
 
 
