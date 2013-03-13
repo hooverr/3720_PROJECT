@@ -148,17 +148,17 @@
 
 		// variable: to contain an integer representation of day of week (0=Sun, 1=Mon, ...)
 		var day
-
-		document.write(holidays);
 		
 		// loop through each day of the month to generate the schedule
 		for (var i = 0; i < numDays; i++) {
 
-			if (holidays[x] == i + 1) {
-				holiday = true;
-				x++;
-			} else {
-				holiday = false;
+			if(holidays.length != 0) {
+				if (holidays[x] == i + 1) {
+					holiday = true;
+					x++;
+				} else {
+					holiday = false;
+				}
 			}
 
 			// variable: for the day of the week based on month, year, and current iteration through the loop
