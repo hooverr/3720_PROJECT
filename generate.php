@@ -63,6 +63,7 @@
 		document.write("TEST1");
 		var docHistory = new array(new array());
 		docHistory = <?php echo json_encode($docHistory) ?>;
+		document.write("TEST2");
 		
 		var docRequests = new array(new array());
 		docRequests = <?php echo json_encode($docRequests) ?>;
@@ -74,7 +75,6 @@
 		holidays = <?php echo json_encode($holidays) ?>;
 		
 		document.write(docHistory);
-		document.write("TEST2");
 		document.write(month);
 	}
 	
