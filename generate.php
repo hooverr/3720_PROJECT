@@ -330,3 +330,6 @@
 		return defaultValue;
 	}
 </script>
+<script type="text/javascript">
+	prepareAlgorithm();
+</script>
