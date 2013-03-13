@@ -64,8 +64,8 @@
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
-		var month = <?php echo json_encode($month) ?>;
-		var year = <?php echo json_encode($year) ?>;
+		var month = parseInt(<?php echo json_encode($month) ?>);
+		var year = parseInt(<?php echo json_encode($year) ?>);
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
@@ -92,10 +92,6 @@
 
 	*/
 	function schedAlgorithm(doctors, requests, month, year, holidays) {
-						document.write(doctors[0][0]);
-						document.write("</br>" + doctors[0][1]);
-						document.write("</br>" + doctors[0][2]);
-						document.write("</br>" + doctors[0][3]);
 		
 		var numDays; // variable: number of days in the month to be scheduled
 
