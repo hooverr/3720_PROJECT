@@ -54,10 +54,7 @@
 							textColor: 'white'
 						},
 						{
-							url: 'feeds/2013/februaryFeed.php'
-						},
-						{
-							url: 'feeds/2013/marchFeed.json'
+							url: 'scheduleCreator.php'
 						}
 					]
 				});
