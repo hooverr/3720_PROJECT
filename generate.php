@@ -61,7 +61,6 @@
 <script type="text/javascript">
 	function prepareAlgorithm() {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
-		document.write( <?php echo json_encode($docHistory) ?> );
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
@@ -69,6 +68,12 @@
 		var year = <?php echo json_encode($year) ?>;
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
+		
+		document.write(docHistory);
+		document.write("</br>" + docRequests);
+		document.write("</br>" + month);
+		document.write("</br>" + year);
+		document.write("</br>" + holidays + "</br>DONE");
 		
 		document.write(schedAlgorithm(docHistory, docRequests, month, year, holidays));
 		
@@ -245,7 +250,6 @@
 			}
 		}
 
-		document.write("TEST");
 		document.write(sched);
 		
 		return sched;
