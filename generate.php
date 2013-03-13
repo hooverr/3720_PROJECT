@@ -61,6 +61,7 @@
 <script type="text/javascript">
 	function prepareAlgorithm() {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
+		document.write( <?php echo json_encode($docHistory) ?> );
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
