@@ -92,6 +92,10 @@
 
 	*/
 	function schedAlgorithm(doctors, requests, month, year, holidays) {
+						document.write(doctors[0][0]);
+						document.write("</br>" + doctors[0][1]);
+						document.write("</br>" + doctors[0][2]);
+						document.write("</br>" + doctors[0][3]);
 		
 		var numDays; // variable: number of days in the month to be scheduled
 
@@ -203,10 +207,6 @@
 					} else {
 						docSorted = sort(doctors, 3).slice();
 						reqSorted = sort(requests, 2).slice();
-						document.write(doctors[0][0]);
-						document.write("</br>" + doctors[0][1]);
-						document.write("</br>" + doctors[0][2]);
-						document.write("</br>" + doctors[0][3]);
 
 						docPosition = findDoctor(2, i, docSorted, reqSorted);
 
