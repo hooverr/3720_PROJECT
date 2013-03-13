@@ -8,7 +8,7 @@
 	
 	mysql_select_db("robh_3720",$link);
 	
-	$result = mysql_query("SELECT Doctor_ID, Total_Holiday, Total_Weekend, Total_Weekday FROM Doctor_history");
+	$result = mysql_query("SELECT Doctor_ID, Total_Holiday, Total_Weekend, Total_Weekday FROM Doctor_History");
 	
 	$docHistory = array(array());
 	$counter = 0;
