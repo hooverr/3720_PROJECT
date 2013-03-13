@@ -44,6 +44,7 @@
 				$('#calendar').fullCalendar({
 					firstDay:0, //Sets the calendars first day, 0 for sunday, 1 for monday etc
 					editable:true,
+					disableDragging:true,
 					eventClick: function(event){
 						alert('Doctor: ' + event.title + '\n' + 'Contact: ' + event.contact);
 					},
