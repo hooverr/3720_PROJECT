@@ -69,9 +69,8 @@
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
-		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays);
+		document.write(schedAlgorithm(docHistory, docRequests, month, year, holidays));
 		
-		document.write(schedule);
 	}
 	
 	/* 
