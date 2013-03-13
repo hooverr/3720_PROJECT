@@ -60,22 +60,17 @@
 ?>
 <script type="text/javascript">
 	function prepareAlgorithm() {
-		document.write("TEST1");
-		var docHistory = new array(new array());
-		docHistory = <?php echo json_encode($docHistory) ?>;
-		document.write("TEST2");
+		var docHistory = <?php echo json_encode($docHistory) ?>;
 		
-		var docRequests = new array(new array());
-		docRequests = <?php echo json_encode($docRequests) ?>;
+		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
 		var month = <?php echo json_encode($month) ?>;
 		var year = <?php echo json_encode($year) ?>;
 		
-		var holidays = new array();
-		holidays = <?php echo json_encode($holidays) ?>;
+		var holidays = <?php echo json_encode($holidays) ?>;
 		
-		document.write(docHistory);
-		document.write(month);
+		document.write(schedAlgorithm(docHistory, docRequests, month, year, holidays));
+		
 	}
 	
 	/* 
@@ -247,6 +242,9 @@
 			}
 		}
 
+		document.write("TEST");
+		document.write(sched);
+		
 		return sched;
 	}
 
@@ -334,6 +332,5 @@
 	}
 </script>
 <script type="text/javascript">
-	document.write("TEST");
 	prepareAlgorithm();
 </script>
