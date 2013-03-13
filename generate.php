@@ -203,8 +203,10 @@
 					} else {
 						docSorted = sort(doctors, 3).slice();
 						reqSorted = sort(requests, 2).slice();
-						document.write(docSorted);
-						document.write(reqSorted);
+						document.write(doctors[0][0]);
+						document.write("</br>" + doctors[0][1]);
+						document.write("</br>" + doctors[0][2]);
+						document.write("</br>" + doctors[0][3]);
 
 						docPosition = findDoctor(2, i, docSorted, reqSorted);
 
