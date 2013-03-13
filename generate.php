@@ -58,6 +58,8 @@
 	/* redirect to calendar page*/
 	//header("Location: http://rob.hoover.im/3720_PROJECT/");
 ?>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function prepareAlgorithm() {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
