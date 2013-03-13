@@ -8,7 +8,7 @@
 	
 	mysql_select_db("robh_3720",$link);
 	
-	$result = mysql_query($link, "SELECT Doctor_ID, Total_Holiday, Total_Weekend, Total_Weekday FROM doctor_history");
+	$result = mysql_query("SELECT Doctor_ID, Total_Holiday, Total_Weekend, Total_Weekday FROM doctor_history");
 	
 	$docHistory = array(array());
 	$counter = 0;
@@ -21,7 +21,7 @@
 		$counter++;
 	}
 	
-	$result = mysql_query($link, "SELECT Doctor_ID, Type, Date FROM requests");
+	$result = mysql_query("SELECT Doctor_ID, Type, Date FROM requests");
 	
 	$docRequests = array(array());
 	$counter = 0;
