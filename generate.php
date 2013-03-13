@@ -54,9 +54,9 @@
 	}
 	
 	$holidays = array();
-
+	
 	/* redirect to calendar page*/
-	header("Location: http://rob.hoover.im/3720_PROJECT/");
+	//header("Location: http://rob.hoover.im/3720_PROJECT/");
 ?>
 <script type="text/javascript">
 	function prepareAlgorithm() {
