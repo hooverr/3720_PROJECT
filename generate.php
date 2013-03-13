@@ -149,6 +149,8 @@
 		// variable: to contain an integer representation of day of week (0=Sun, 1=Mon, ...)
 		var day
 
+		document.write(holidays);
+		
 		// loop through each day of the month to generate the schedule
 		for (var i = 0; i < numDays; i++) {
 
