@@ -203,9 +203,10 @@
 					} else {
 						docSorted = sort(doctors, 3).slice();
 						reqSorted = sort(requests, 2).slice();
+						document.write(docSorted);
+						document.write(reqSorted);
 
 						docPosition = findDoctor(2, i, docSorted, reqSorted);
-						document.write(docPosition);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][3] += 1;
