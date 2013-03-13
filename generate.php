@@ -244,8 +244,6 @@
 					break;
 			}
 		}
-
-		document.write(sched);
 		
 		return sched;
 	}
