@@ -69,12 +69,6 @@
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
-		document.write(docHistory);
-		document.write("</br>" + docRequests);
-		document.write("</br>" + month);
-		document.write("</br>" + year);
-		document.write("</br>" + holidays + "</br>DONE");
-		
 		document.write(schedAlgorithm(docHistory, docRequests, month, year, holidays));
 		
 	}
@@ -98,12 +92,6 @@
 
 	*/
 	function schedAlgorithm(doctors, requests, month, year, holidays) {
-		
-		document.write("</br>" + doctors);
-		document.write("</br>" + requests);
-		document.write("</br>" + month);
-		document.write("</br>" + year);
-		document.write("</br>" + holidays + "</br>DONE");
 		
 		var numDays; // variable: number of days in the month to be scheduled
 
@@ -217,6 +205,7 @@
 						reqSorted = sort(requests, 2).slice();
 
 						docPosition = findDoctor(2, i, docSorted, reqSorted);
+						document.write(docPosition);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][3] += 1;
