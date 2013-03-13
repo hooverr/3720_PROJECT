@@ -331,5 +331,6 @@
 	}
 </script>
 <script type="text/javascript">
+	document.write("TEST");
 	prepareAlgorithm();
 </script>
