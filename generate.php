@@ -60,6 +60,7 @@
 ?>
 <script type="text/javascript">
 	function prepareAlgorithm() {
+		document.write("TEST1");
 		var docHistory = new array(new array());
 		docHistory = <?php echo json_encode($docHistory) ?>;
 		
