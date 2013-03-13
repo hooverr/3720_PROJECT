@@ -73,6 +73,8 @@
 		holidays = <?php echo json_encode($holidays) ?>;
 		
 		document.write(docHistory);
+		document.write("TEST2");
+		document.write(month);
 	}
 	
 	/* 
