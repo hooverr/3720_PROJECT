@@ -242,6 +242,9 @@
 			}
 		}
 
+		document.write("TEST");
+		document.write(sched);
+		
 		return sched;
 	}
 
