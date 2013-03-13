@@ -77,6 +77,18 @@
 			</nav>
 		<div id="content">
 			<div id="calendar"></div>
+			<?php 
+				$mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+
+				  if ($mysqli->connect_error) {
+					  die('Connect Error (' . $mysqli->connect_errno . ') '
+							  . $mysqli->connect_error);
+				  }
+				  $query = "SELECT * FROM Schedule WHERE Month=4";
+				  $result = $mysqli->query($query);
+				  var_dump($result);
+				  $mysqli->close();
+			?>
 		</div>
 		<footer></footer>
 	</body>

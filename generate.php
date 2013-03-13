@@ -71,7 +71,15 @@
 		
 		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays);
 		
-		document.write(schedule);
+		//month in algorithm is 0-11 in database is 1-12
+		month += 1;
+		
+		month = JSON.stringify(month);
+		year = JSON.stringify(year);
+		schedule = JSON.stringify(schedule);
+		$.post('../writeSched.php', { 'month': month });
+		$.post('../writeSched.php', { 'year': year });
+		$.post('../writeSched.php', { 'schedule': schedule });
 		
 	}
 	
