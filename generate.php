@@ -98,6 +98,13 @@
 
 	*/
 	function schedAlgorithm(doctors, requests, month, year, holidays) {
+		
+		document.write("</br>" + doctors);
+		document.write("</br>" + requests);
+		document.write("</br>" + month);
+		document.write("</br>" + year);
+		document.write("</br>" + holidays + "</br>DONE");
+		
 		var numDays; // variable: number of days in the month to be scheduled
 
 		// switch statement to assign number of days to schedule
