@@ -74,7 +74,7 @@
 		month = JSON.stringify(month);
 		year = JSON.stringify(year);
 		schedule = JSON.stringify(schedule);
-		$.post('writeSched.php', { 'month': month, 'year': year, 'schedule': schedule });
+		$.post('writeSchedule.php', { 'month': month, 'year': year, 'schedule': schedule });
 		
 	}
 	
