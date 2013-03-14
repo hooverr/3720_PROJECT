@@ -76,9 +76,11 @@
 				</ul>
 			</nav>
 		<div id="content">
-			<div id="calendar"></div>
-		</div>
-		<button onclick="generate.php">Generate Schedule</button>
+      <div id="calendar"></div>
+      <!--Include the generate.php page for creating scheduels -->
+      <?php include("generate.php"); ?>
+      <input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(); window.setTimeout(window.location.reload(true),1000);" />
+    </div>
 		<footer></footer>
 	</body>
 </html>
