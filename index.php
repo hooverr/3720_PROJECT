@@ -74,6 +74,16 @@
 				  }
 				});
 			      });
+        function reloadCalendar(){
+          $('#calendar').fullCalendar( 'refetchEvents' )
+        }
+        
+        function getDate(){
+          var date = $('#calendar').fullCalendar('getDate');
+          var month = date.getMonth();
+          return month;
+        }
+          
 		</script>
 				
 	</head>
@@ -97,8 +107,8 @@
 					
 				<!--Include the generate.php page for creating scheduels -->
 				<?php include("generateSchedule.php"); ?>
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(); window.setTimeout(window.location.reload(true),1000);" />
-				</div>
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getDate()); window.setTimeout(reloadCalendar(),1500);" />
+        </div>
 			</div>
 		</div>
 		<footer></footer>

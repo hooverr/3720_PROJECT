@@ -56,12 +56,12 @@
 	$holidays = array();
 ?>
 <script type="text/javascript">
-	function prepareAlgorithm() {
+	function prepareAlgorithm(inputMonth) {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
-		var month = parseInt(<?php echo json_encode($month) ?>);
+		var month = inputMonth;//parseInt(<?php echo json_encode($month) ?>);
 		var year = parseInt(<?php echo json_encode($year) ?>);
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
