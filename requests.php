@@ -41,7 +41,7 @@
 								<tr>
 									<td>
 				
-										<label name="docLbl">Select a Doctor:</label>
+										<label name="reqdocLbl">Select a Doctor:</label>
 									</td>
 									<td>
 										<select name = "requestDoctor"  style="width: 150px;">
