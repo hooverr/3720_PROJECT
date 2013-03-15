@@ -63,7 +63,7 @@
 		
 		var month = inputMonth;//parseInt(<?php echo json_encode($month) ?>);
 		
-		document.write(month);
+		alert(month);
 		
 		var year = parseInt(<?php echo json_encode($year) ?>);
 		
