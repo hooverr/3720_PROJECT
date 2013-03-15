@@ -18,8 +18,10 @@
 		<!-- 
 		 Load jQuery and jQueryui from google
 		 -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+		<script src="resources/js/jquery-1.9.1.js"></script>
+		<script src="resources/js/jquery-ui-1.10.2.custom.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="resources/css/custom-theme/jquery-ui-1.10.2.custom.min.css"/>
+		<script src="resources/js/jquery.maskedinput.min.js"></script> <!-- http://digitalbush.com/projects/masked-input-plugin/ -->
 		
 		<!-- 
 		 Load calendar javascript
@@ -60,27 +62,45 @@
 					]
 				});
 			});
+			
+			$(function() {
+				$( "#navigation" ).tabs({
+				  beforeLoad: function( event, ui ) {
+				    ui.jqXHR.error(function() {
+				      ui.panel.html(
+					"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+					"If this wouldn't be a demo." );
+				    });
+				  }
+				});
+			      });
 		</script>
 				
 	</head>
 	<body>
-		<header>
-			<h1>Calls Project</h1>
-		</header>
-			<nav id="navigation">
+		<div style="width:960px; margin-left:auto; margin-right:auto;">
+			
+			<header class="ui-state-default ui-corner-all" style="width:934px;">
+				<h1>Calls</h1>
+			</header>
+		
+			<div id="navigation">
 				<ul>
-					<li id="current"><a href="index.html">Schedule</a></li>
+					<li><a href="#tabs-1">Calendar</a></li>
 					<li><a href="doctors.php">Doctors</a></li>
 					<li><a href="requests.php">Requests</a></li>
 					<li><a href="reports.php">Reports</a></li>
+					<li><a href="testing.php">Testing</a></li>
 				</ul>
-			</nav>
-		<div id="content">
-      <div id="calendar"></div>
-      <!--Include the generate.php page for creating scheduels -->
-      <?php include("generateSchedule.php"); ?>
-      <input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(); window.setTimeout(window.location.reload(true),1000);" />
-    </div>
+				<div id="tabs-1">
+					<div id="calendar"></div>
+					
+				<!--Include the generate.php page for creating scheduels -->
+				<?php include("generateSchedule.php"); ?>
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(); window.setTimeout(window.location.reload(true),1000);" />
+				</div>
+			</div>
+		</div>
 		<footer></footer>
 	</body>
 </html>

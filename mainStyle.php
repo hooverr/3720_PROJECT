@@ -31,14 +31,18 @@
 } 
 
 body{
-	background-color: <?php echo $color1 ?>;
+        background-image:url('resources/bg.jpg');
+	//background-color: <?php echo $color1 ?>;
 	font-family: "Times New Roman", Times, serif;
 }
 
 header{
-	background-color: <?php echo $color2 ?>	;
+	//background-color: <?php echo $color2 ?>	;
 	text-align: center;
 	font-size: 2em;
+        width:500px;
+        margin-left:auto;
+        margin-right:auto;
 }
 
 #content {
@@ -51,30 +55,20 @@ header{
 
 #navigation{
 	text-align: center;
-	background-color: 	<?php echo $color3 ?>;
-	font-size: 1.5em;
+	//background-color: 	<?php echo $color3 ?>;
+        width:930px;
+        margin-left:auto;
+        margin-right:auto;
 }
-#navigation ul{
-	padding:5px 0 5px 0;
-}
-#navigation li{
-	list-style:none;
-	display:inline-block;
-}
-
-#navigation a{
-	text-decoration: none;
-	padding:0 5px 0 5px;
-	color: #000000;
-	line-height:100%;
-}
-
-#navigation a:hover{
-	color: #FFFFFF;
-}
-
-#navigation #current a {
-	color: #FFFFFF;
+#navigation .ui-tabs-nav { 
+    height: 2.35em; 
+    text-align: center; 
+} 
+#navigation .ui-tabs-nav li { 
+    display: inline-block; 
+    float: none; 
+    top: 0px; 
+    margin: 0em; 
 }
 
 #calendar {
