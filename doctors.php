@@ -5,7 +5,7 @@
 			
 		function changeFunc()
 		{
-			$(":submit").val($("#funcSelect").val());
+			$('input[name="docSubmit"]').val($("#funcSelect").val());
 			if($("#funcSelect").val() == "Update")
 			{
 				var vals = $('select[name="doc"] option:selected').text().split(" ");
@@ -176,7 +176,7 @@
 								</tr>
 								<tr>
 									<td colspan="2">
-										<input style="width:100%;" type="submit" value="Add"></input>
+										<input style="width:100%;" name="docSubmit" type="submit" value="Add"></input>
 									</td>
 								</tr>
 								<tr>
