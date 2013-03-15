@@ -82,7 +82,7 @@
 								</tr>
 								<tr>
 									<td>
-										<label id="requestStartDatePickerLabel">Select Start Date:</label>
+										<label id="requestStartDatePickerLabel">Select a Date:</label>
 									</td>
 									<td>
 										<input style="width: 98%;" type="text" name="requestStartDatePicker"></input>
