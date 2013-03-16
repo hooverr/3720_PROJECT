@@ -52,7 +52,7 @@
 					},
 					eventSources: [	
 						{
-							url: 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+							url: 'holidayFeed.php',
 							color: 'black',
 							textColor: 'white'
 						},
@@ -96,7 +96,7 @@
 		
 			<div id="navigation">
 				<ul>
-					<li><a href="#tabs-1" onclick="prepareAlgorithm(getDate()); window.setTimeout(reloadCalendar(),1500);">Calendar</a></li>
+					<li><a href="#tabs-1" onclick="reloadCalendar();">Calendar</a></li>
 					<li><a href="doctors.php">Doctors</a></li>
 					<li><a href="requests.php">Requests</a></li>
 					<li><a href="reports.php">Reports</a></li>
