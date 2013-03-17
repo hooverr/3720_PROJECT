@@ -109,7 +109,7 @@
 					
 				<!--Include the generate.php page for creating scheduels -->
 				<?php include("generateSchedule.php"); ?>
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getDate()); window.setTimeout(reloadCalendar(),1500);" />
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getDate()); window.setTimeout(reloadCalendar(),2000);" />
         </div>
 			</div>
 		</div>
