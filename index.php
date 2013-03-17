@@ -44,21 +44,23 @@
 				var y = date.getFullYear();
 				
 				$('#calendar').fullCalendar({
-					firstDay:0, //Sets the calendars first day, 0 for sunday, 1 for monday etc
+					firstDay:1, 
 					editable:true,
 					disableDragging:true,
+          height: 600,
+          weekMode:'variable',
 					eventClick: function(event){
-						alert('Doctor: ' + event.title + '\n' + 'Contact: ' + event.contact);
+						alert('Doctor: ' + event.title);
 					},
 					eventSources: [	
 						{
+							url: 'scheduleFeed.php'
+						},
+            {
 							url: 'holidayFeed.php',
 							color: 'black',
-							textColor: 'white'
+							textColor: 'white',
 						},
-						{
-							url: 'readSchedule.php'
-						}
 					]
 				});
 			});

@@ -1,12 +1,20 @@
 <?php
 /*
-Class used to create the calendar array from
-the array of scheduled doctors then output 
-a json encoded string that Full Calendar can read
+  Class: ScheduleCreator
+  
+  Creates a schedule based on information stored in the database.
+  Has the ability to return a jsonString of the created schedule.
 */
 class ScheduleCreator{	
-  /*Function to retrieve doctors names from the database
-    Returns an array of the names in the position of their id
+  /*
+    Function: getDoctorNames
+     
+    Creates an array of doctors from the database.
+      
+    Returns:
+      
+    An array of doctor names, positioned by their id.
+      
   */
   private function getDoctorNames(){
     $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
@@ -20,11 +28,17 @@ class ScheduleCreator{
     $mysqli->close();
     return $nameArray;
   }
-  /*Function to retrieve the schedules from the database
-  Returns a 2d array of monthly schedules where each row is a month
-  @todo make this work for more than one month
+  /*
+    Function: createCalendarHolidayArray
+     
+    Creates an array of scheduled days from the database.
+      
+    Returns:
+      
+    An array representing days that have been scheduled.
+      
   */
-  public function getDatabaseSchedules(){
+  private function getDatabaseSchedules(){
     $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
     $query = "SELECT * FROM Schedule" ; 
     $result = $mysqli->query($query);
@@ -39,15 +53,19 @@ class ScheduleCreator{
    
     return $return;
   }
+
   /*
-  Function that takes an input scheduled doctors array,
-  month and year.
-  month format: 01,02....12
-  year format:  0001,0002....9999
-  
-  returns a 2d array of days that are represented as an array
+    Function: createScheduleArray
+     
+    Creates a 2d array of scheduled days.
+    
+    Returns:
+      
+    A 2d array of scheduled days that contains the doctor name, day scheduled, and a unique color.
+    This assumes use of the FullCalendar library.
+      
   */
-  public function createScheduleArray(){
+  private function createScheduleArray(){
     $doctorNames = $this->getDoctorNames();
     $array = $this->getDatabaseSchedules();
     foreach($array as $row){
@@ -60,7 +78,7 @@ class ScheduleCreator{
       
       //Color options for doctors
       //@todo create a color for the number of unique doctors
-      $colors = array("#0000FF","#FF0000","00FF00","#5F9EA0","#008B8B","#B8860B");
+      $colors = array("#F80000","#009900","#0000CC","#6600CC","#CC3300","#CCCC33","#FF9966","#6666CC","#0066CC");
       
       
       //index, increments for each day scheduled 
@@ -72,7 +90,6 @@ class ScheduleCreator{
         $dayArray = array(
             'id' => "$year-$monthString-$dayString",
             'title' => $doctorNames[$value],
-            'contact' => "xxx-xxx-xxxx",
             'start' => "$year-$monthString-$dayString",
             'backgroundColor' => $colors[$value % 6]
         );     
@@ -85,10 +102,18 @@ class ScheduleCreator{
     }
 		return $schedule;
 	}
-  
-  
+   /*
+    Function: jsonString
+     
+    Creates a jsonstring representation of the schedule.
+      
+    Returns:
+      
+    A jsonstring representation of the schedule, used by FullCalendar
+      
+  */
+  public function jsonString(){
+    return json_encode($this->createScheduleArray());
+  }
 }
-$creator = new ScheduleCreator();
-$schedule = $creator->createScheduleArray();
-echo json_encode($schedule);
 ?>

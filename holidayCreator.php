@@ -1,26 +1,26 @@
 <?php
+/*
+  Class: HolidayCreator
+  
+  Creates an array of holidays for the provided year
+  Has the ability to return a jsonString of the created schedule.
+  Has the ability to return an array of the holidays, providing just their date.
+*/
 class HolidayCreator{
   /*
-  List of Alberta Holiday's as of 3/15/2013
-
-  New Year's Day - January 1st
-  Alberta Family Day - Third Monday in February
-  Good Friday - Friday before Easter
-  Victoria Day - Monday before May 25
-  Canada Day - July 1, except when it falls on a Sunday, then it is July 2
-  Labour Day - First Monday in September
-  Thanksgiving Day - Second Monday in October
-  Remembrance Day - November 11
-  Christmas Day - December 25
-
-
-  Optional Holidays
-
-  Easter Monday - First Monday following Easter
-  Heritage Day - First Monday in August
-  Boxing Day - December 26
+    Function: createCalendarHolidayArray
+     
+    Creates a 2d array of holidays that contains a title and date for each holiday.
+    
+    Parameters:
+    
+    year - Year that the holidays are to be created for.
+      
+    Returns:
+      
+    A 2d array of holidays for the provided year.
+      
   */
-  
   private function createCalendarHolidayArray($year){
     
     //set the background color for the holidays, assumes using full calendar library
@@ -132,6 +132,20 @@ class HolidayCreator{
     
     return $holidayArray;
   }
+  /*
+    Function: dateArray
+     
+    Creates an array of holidays, provides just their date.
+    
+    Parameters:
+    
+    year - Year that the holidays are to be created for.
+      
+    Returns:
+      
+    An array of holidays for the provided year.
+      
+  */
   public function dateArray($year){
       $holidayArray = $this->createCalendarHolidayArray($year);
       
@@ -140,8 +154,21 @@ class HolidayCreator{
       }   
       return $dateArray;
   }
-  
-  public function jsonArray($year){
+  /*
+    Function: jsonArray
+       
+    Creates a json string of the created holiday array.
+      
+    Parameters:
+      
+    year - Year that the holidays are to be created for.
+        
+    Returns:
+        
+    A json string of the holidays, used by the full calendar library.
+      
+  */
+  public function jsonString($year){
     return json_encode($this->createCalendarHolidayArray($year));
   }
 }

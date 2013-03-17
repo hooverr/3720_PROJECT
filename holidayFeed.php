@@ -1,7 +1,6 @@
 <?php
-include('holidayCreator.php');
+require_once('holidayCreator.php');
 $holidayCreator = new HolidayCreator();
 $year = date("Y");
-echo $holidayCreator->jsonArray($year);
-
+echo $holidayCreator->jsonString($year);
 ?>
