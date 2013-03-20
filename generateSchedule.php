@@ -60,10 +60,8 @@
 	$holidays = array();
 ?>
 <script type="text/javascript">
-	function prepareAlgorithm(inputMonth, input Year) {
+	function prepareAlgorithm(inputMonth, inputYear) {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
-		
-		alert(docHistory);
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
@@ -73,6 +71,8 @@
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
 		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays);
+		
+		alert(schedule);
 		
 		//month in algorithm is 0-11 in database is 1-12
 		month += 1;
@@ -194,7 +194,7 @@
 						docSorted = sort(doctors, 2).slice();
 						reqSorted = sort(requests, 2).slice();
 
-						docPosition = findDoctor(year, month, i, docSorted, reqSorted);
+						docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][2] += 1;
@@ -215,7 +215,7 @@
 						docSorted = sort(doctors, 3).slice();
 						reqSorted = sort(requests, 2).slice();
 
-						docPosition = findDoctor(year, month, i, docSorted, reqSorted);
+						docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][3] += 1;
@@ -228,7 +228,7 @@
 					docSorted = sort(doctors, 3).slice();
 					reqSorted = sort(requests, 2).slice();
 
-					docPosition = findDoctor(year, month, i, docSorted, reqSorted);
+					docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
 					sched[i] = docSorted[docPosition][0];
 					if (holiday)
@@ -242,7 +242,7 @@
 					docSorted = sort(doctors, 3).slice();
 					reqSorted = sort(requests, 2).slice();
 
-					docPosition = findDoctor(year, month, i, docSorted, reqSorted);
+					docPosition = findDoctor(year, month, i, docSorted, reqSorted, true);
 
 					sched[i] = docSorted[docPosition][0];
 					prevDocID = docSorted[docPosition][0];
@@ -296,17 +296,17 @@
 			date - the day of the month (integer)
 			doctors - the array of doctors (already sorted by the days worked of given type)
 			requests - the array of requests (already sorted by the date of the request)
+			weekendCheck - boolean variable to tell if requests need to be checked for the weekend (on Friday)
 		
 		Returns:
 
 			an integer index in the doctor array of the doctor to be scheduled
 
 	*/
-	function findDoctor(year, month, date, doctors, requests) {
-		//temporary variable to store docID
-		var docID;
-
-		var schedulingDate = new Date(year, month, date);
+	function findDoctor(year, month, date, doctors, requests, weekendCheck) {
+		
+		var day = date + 1;
+		var schedulingDate = new Date(year, month, day);
 		
 		if (requests.length != 0) {
 			var r;
@@ -316,40 +316,93 @@
 			for (j = 0; j < requests.length; j++) {
 				// if request on
 				if (requests[j][1] == 1) {
-					// if request is for current day
-					if (requests[j][2] == date) {
-						for (r = 0; r < doctors.length; r++) {
-							if (doctors[r][0] == requests[j][0]) {
-								//return position of doctor id matching the doctor id for the request on
-								return r;
+				
+					var reqDate = new Date(requests[j][2]);
+					if(weekendCheck) {
+						// if request is for current day
+						if (((reqDate.getDate() == date) || (reqDate.getDate() == date + 1) || (reqDate.getDate() == date + 2))
+						&& (reqDate.getFullYear() == year) 
+						&& (reqDate.getMonth() == month) ) {
+						
+							for (r = 0; r < doctors.length; r++) {
+								if (doctors[r][0] == requests[j][0]) {
+									//return position of doctor id matching the doctor id for the request on
+									return r;
+								}
+							}
+						}
+					} else {
+						// if request is for current day
+						if ((reqDate.getDate() == date) && (reqDate.getFullYear() == year) && (reqDate.getMonth() == month) ) {
+						
+							for (r = 0; r < doctors.length; r++) {
+								if (doctors[r][0] == requests[j][0]) {
+									//return position of doctor id matching the doctor id for the request on
+									return r;
+								}
 							}
 						}
 					}
 				}
 					// if request off
 				else if (requests[j][1] == 0) {
-
-					// if request is for current day
-					if (requests[j][2] == date) {
-						for (r = 0; r < doctors.length; r++) {
-							var docStart = new Date(doctors[r][4]);
-							var docEnd = new Date(doctors[r][5]);
-							if ((doctors[r][0] != requests[j][0]) && (schedulingDate >= docStart) && (schedulingDate <= docEnd)) {
-								//return position of doctor id matching the doctor id for the request on
-								return r;
+				
+					var reqDate = new Date(requests[j][2]);
+					
+					if(weekendCheck) {
+						// if request is for current day
+						if (((reqDate.getDate() == date) || (reqDate.getDate() == date + 1) || (reqDate.getDate() == date + 2))
+						&& (reqDate.getFullYear() == year) 
+						&& (reqDate.getMonth() == month) ) {
+							for (r = 0; r < doctors.length; r++) {
+								var docStart = new Date(doctors[r][4]);
+								if(doctors[r][5] !== null) {
+									var docEnd = new Date(doctors[r][5]);
+								}
+								else {
+									var docEnd = new Date("2999-01-01");
+								}
+								
+								if ((doctors[r][0] != requests[j][0]) && (schedulingDate > docStart) && (schedulingDate <= docEnd)) {
+									//return position of doctor id matching the doctor id for the request on
+									return r;
+								}
+							}
+						}
+					} else {
+						// if request is for current day
+						if ((reqDate.getDate() == date) && (reqDate.getFullYear() == year) && (reqDate.getMonth() == month) ) {
+							for (r = 0; r < doctors.length; r++) {
+								var docStart = new Date(doctors[r][4]);
+								if(doctors[r][5] !== null) {
+									var docEnd = new Date(doctors[r][5]);
+								}
+								else {
+									var docEnd = new Date("2999-01-01");
+								}
+								
+								if ((doctors[r][0] != requests[j][0]) && (schedulingDate > docStart) && (schedulingDate <= docEnd)) {
+									//return position of doctor id matching the doctor id for the request on
+									return r;
+								}
 							}
 						}
 					}
 				}
 			}
-		} else {
-			for (r = 0; r < doctors.length; r++) {
-				var docStart = new Date(doctors[r][4]);
+		}
+		for (r = 0; r < doctors.length; r++) {
+			var docStart = new Date(doctors[r][4]);
+			if(doctors[r][5] !== null) {
 				var docEnd = new Date(doctors[r][5]);
-				if ((schedulingDate >= docStart) && (schedulingDate <= docEnd)) {
-					//return position of doctor id matching the doctor id for the request on
-					return r;
-				}
+			}
+			else {
+				var docEnd = new Date("2999-01-01");
+			}
+			
+			if ((schedulingDate > docStart) && (schedulingDate <= docEnd)) {
+				//return position of doctor id matching the doctor id for the request on
+				return r;
 			}
 		}
 	}

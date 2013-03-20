@@ -88,7 +88,7 @@
         
         function getYear(){
           var date = $('#calendar').fullCalendar('getDate');
-          var year = date.getYear();
+          var year = date.getFullYear();
           return year;
         }
           
