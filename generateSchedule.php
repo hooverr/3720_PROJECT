@@ -31,17 +31,42 @@
 	
 	$result = mysql_query("SELECT Doctor_ID, Type, Date FROM Requests");
 	
+	if (!$result) {
+		die('Invalid query: ' . mysql_error());
+	}
+	
 	$docRequests = array(array());
 	$counter = 0;
 	
 	while($row = mysql_fetch_assoc($result)) {
 		
-		//$tempDate = $row['Date'];
-		
 		$day = date('Y-m-d', strtotime($row['Date']));
 		$docRequests[$counter][0] = $row['Doctor_ID'];
 		$docRequests[$counter][1] = $row['Type'];
 		$docRequests[$counter][2] = $day;
+		
+		$counter++;
+	}
+	
+	$yearStart = date('Y') - 1;
+	$yearEnd = date('Y') + 1;
+	
+	$result = mysql_query('SELECT * FROM Schedule WHERE Year BETWEEN '.$yearStart.' AND '.$yearEnd.'');
+	
+	if (!$result) {
+		die('Invalid query: ' . mysql_error());
+	}
+	
+	$priorSchedules = array(array());
+	$counter = 0;
+	
+	while($row = mysql_fetch_assoc($result)) {
+		$priorSchedules[$counter][0] = $row['Year'];
+		$priorSchedules[$counter][1] = $row['Month'];
+		$priorSchedules[$counter][2] = $row['28'];
+		$priorSchedules[$counter][3] = $row['29'];
+		$priorSchedules[$counter][4] = $row['30'];
+		$priorSchedules[$counter][5] = $row['31'];
 		
 		$counter++;
 	}
@@ -61,6 +86,7 @@
 ?>
 <script type="text/javascript">
 	function prepareAlgorithm(inputMonth, inputYear) {
+	
 		var docHistory = <?php echo json_encode($docHistory) ?>;
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
@@ -68,9 +94,12 @@
 		var month = inputMonth;//parseInt(<?php echo json_encode($month) ?>);
 		
 		var year = inputYear;//parseInt(<?php echo json_encode($year) ?>);
+		
+		var prevSched = <?php echo json_encode($priorSchedules) ?>;
+		
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
-		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays);
+		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays, prevSched);
 		
 		alert(schedule);
 		
@@ -96,13 +125,14 @@
 			month - integer argument (0=Jan, 1=Feb, ..., 10=Nov, 11=Dec)
 			year - integer argument (2013, 2014, etc) 
 			holidays - array parameter (single dimensional int array - day of month holiday)
+			prevSched - array containing the previous schedules to determine previous doctor on a month starting on a weekend
 		
 		Returns:
 
 			an array containing doctorID for each day (array position + 1)
 
 	*/
-	function schedAlgorithm(doctors, requests, month, year, holidays) {
+	function schedAlgorithm(doctors, requests, month, year, holidays, prevSched) {
 		
 		var numDays; // variable: number of days in the month to be scheduled
 
@@ -189,16 +219,55 @@
 						// assign doctor to sched array
 						sched[i] = prevDocID;
 						//increment doctors weekend days worked
-						doctors[docPosition][2] += 1;
+						for(var x = 0; x < doctors.length; x++) {
+							if(doctors[x][0] == prevDocID) {
+								doctors[x][2] += 1;
+								break;
+							}
+						}
+						
 					} else {
-						docSorted = sort(doctors, 2).slice();
-						reqSorted = sort(requests, 2).slice();
+					
+						prevDocID = 0;
+					
+						var prevMonth = month;
+						if(month == 12) 
+							prevMonth = 0;
+						
+						for(var x = 0; x < prevSched.length; x++) {
+							
+							if(prevSched[x][1] == prevMonth) {
+								if(((month == 0) && (prevSched[x][0] == year-1)) || ((month != 0) && (prevSched[x][0] == year))) {
+									var z = 5;
+									while(z >= 2) {
+										if(prevSched[x][z] !== null){
+											prevDocID = prevSched[x][z];
+											break;
+										}
+										z--;
+									}
+								}
+							}
+						}
+						
+						if(prevDocID == 0) {
+							
+							docSorted = sort(doctors, 2).slice();
+							reqSorted = sort(requests, 2).slice();
 
-						docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
+							docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
-						sched[i] = docSorted[docPosition][0];
-						docSorted[docPosition][2] += 1;
-						doctors = docSorted.slice();
+							prevDocID = docSorted[docPosition][0];
+							
+						}
+						for(var x = 0; x < doctors.length; x++) {
+							if(doctors[x][0] == prevDocID) {
+								doctors[x][2] += 1;
+								break;
+							}
+						}
+						
+						sched[i] = prevDocID
 					}
 
 					break;
