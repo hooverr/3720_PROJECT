@@ -8,7 +8,13 @@
 	
 	mysql_select_db("robh_3720",$link);
 	
-	$result = mysql_query("SELECT Doctor_ID, Total_Holiday, Total_Weekend, Total_Weekday FROM Doctor_History");
+	$result = mysql_query("SELECT d.Doctor_ID, h.Total_Holiday, h.Total_Weekend, h.Total_Weekday, d.Start_Date, d.End_Date " . 
+	"FROM Doctor_History as h, Doctor as d " . 
+	"WHERE d.Doctor_ID = h.Doctor_ID");
+	
+	if (!$result) {
+		die('Invalid query: ' . mysql_error());
+	}
 	
 	$docHistory = array(array());
 	$counter = 0;
@@ -18,6 +24,8 @@
 		$docHistory[$counter][1] = $row['Total_Holiday'];
 		$docHistory[$counter][2] = $row['Total_Weekend'];
 		$docHistory[$counter][3] = $row['Total_Weekday'];
+		$docHistory[$counter][4] = $row['Start_Date'];
+		$docHistory[$counter][5] = $row['End_Date'];
 		$counter++;
 	}
 	
@@ -28,16 +36,12 @@
 	
 	while($row = mysql_fetch_assoc($result)) {
 		
-		$tempDate = $row['Date'];
+		//$tempDate = $row['Date'];
 		
-		if((date('Y', $tempDate) == date('Y')) || ((date('Y', $tempDate) == date('Y') + 1) && date('m') == 12)){
-			if(date('m', $tempDate) - 1 == (date('m') % 12)) {
-				$day = date('j', $tempDate);
-				$docRequests[counter][0] = $row['DoctorID'];
-				$docRequests[counter][1] = $row['Type'];
-				$docRequests[counter][2] = $day;
-			}
-		}
+		$day = date('Y-m-d', strtotime($row['Date']));
+		$docRequests[$counter][0] = $row['Doctor_ID'];
+		$docRequests[$counter][1] = $row['Type'];
+		$docRequests[$counter][2] = $day;
 		
 		$counter++;
 	}
@@ -56,15 +60,16 @@
 	$holidays = array();
 ?>
 <script type="text/javascript">
-	function prepareAlgorithm(inputMonth) {
+	function prepareAlgorithm(inputMonth, input Year) {
 		var docHistory = <?php echo json_encode($docHistory) ?>;
+		
+		alert(docHistory);
 		
 		var docRequests = <?php echo json_encode($docRequests) ?>;
 		
 		var month = inputMonth;//parseInt(<?php echo json_encode($month) ?>);
 		
-		var year = parseInt(<?php echo json_encode($year) ?>);
-		
+		var year = inputYear;//parseInt(<?php echo json_encode($year) ?>);
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
 		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays);
@@ -86,7 +91,7 @@
 
 		Parameters:
 
-			doctors - array parameter (multidimensional array containing doctorID, holidays worked, weekend days worked, weekday days worked)
+			doctors - array parameter (multidimensional array containing doctorID, holidays worked, weekend days worked, weekday days worked, start date, end date)
 			requests - array parameter (multidimensional array containing doctorID, request on/off, day)
 			month - integer argument (0=Jan, 1=Feb, ..., 10=Nov, 11=Dec)
 			year - integer argument (2013, 2014, etc) 
@@ -189,7 +194,7 @@
 						docSorted = sort(doctors, 2).slice();
 						reqSorted = sort(requests, 2).slice();
 
-						docPosition = findDoctor(2, docSorted, reqSorted);
+						docPosition = findDoctor(year, month, i, docSorted, reqSorted);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][2] += 1;
@@ -210,7 +215,7 @@
 						docSorted = sort(doctors, 3).slice();
 						reqSorted = sort(requests, 2).slice();
 
-						docPosition = findDoctor(2, i, docSorted, reqSorted);
+						docPosition = findDoctor(year, month, i, docSorted, reqSorted);
 
 						sched[i] = docSorted[docPosition][0];
 						docSorted[docPosition][3] += 1;
@@ -223,7 +228,7 @@
 					docSorted = sort(doctors, 3).slice();
 					reqSorted = sort(requests, 2).slice();
 
-					docPosition = findDoctor(3, i, docSorted, reqSorted);
+					docPosition = findDoctor(year, month, i, docSorted, reqSorted);
 
 					sched[i] = docSorted[docPosition][0];
 					if (holiday)
@@ -237,7 +242,7 @@
 					docSorted = sort(doctors, 3).slice();
 					reqSorted = sort(requests, 2).slice();
 
-					docPosition = findDoctor(3, i, docSorted, reqSorted);
+					docPosition = findDoctor(year, month, i, docSorted, reqSorted);
 
 					sched[i] = docSorted[docPosition][0];
 					prevDocID = docSorted[docPosition][0];
@@ -286,7 +291,8 @@
 
 		Parameters:
 
-			dayType - type of day (holiday = 1, weekend = 2, weekday = 3)
+			year - year being scheduled
+			month - month being scheduled
 			date - the day of the month (integer)
 			doctors - the array of doctors (already sorted by the days worked of given type)
 			requests - the array of requests (already sorted by the date of the request)
@@ -296,10 +302,12 @@
 			an integer index in the doctor array of the doctor to be scheduled
 
 	*/
-	function findDoctor(dayType, date, doctors, requests) {
+	function findDoctor(year, month, date, doctors, requests) {
 		//temporary variable to store docID
 		var docID;
 
+		var schedulingDate = new Date(year, month, date);
+		
 		if (requests.length != 0) {
 			var r;
 			var j;
@@ -324,7 +332,9 @@
 					// if request is for current day
 					if (requests[j][2] == date) {
 						for (r = 0; r < doctors.length; r++) {
-							if (doctors[r][0] != requests[j][0]) {
+							var docStart = new Date(doctors[r][4]);
+							var docEnd = new Date(doctors[r][5]);
+							if ((doctors[r][0] != requests[j][0]) && (schedulingDate >= docStart) && (schedulingDate <= docEnd)) {
 								//return position of doctor id matching the doctor id for the request on
 								return r;
 							}
@@ -332,8 +342,15 @@
 					}
 				}
 			}
+		} else {
+			for (r = 0; r < doctors.length; r++) {
+				var docStart = new Date(doctors[r][4]);
+				var docEnd = new Date(doctors[r][5]);
+				if ((schedulingDate >= docStart) && (schedulingDate <= docEnd)) {
+					//return position of doctor id matching the doctor id for the request on
+					return r;
+				}
+			}
 		}
-		var defaultValue = 0;
-		return defaultValue;
 	}
 </script>

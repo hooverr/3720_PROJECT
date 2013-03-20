@@ -80,10 +80,16 @@
           $('#calendar').fullCalendar( 'refetchEvents' )
         }
         
-        function getDate(){
+        function getMonth(){
           var date = $('#calendar').fullCalendar('getDate');
           var month = date.getMonth();
           return month;
+        }
+        
+        function getYear(){
+          var date = $('#calendar').fullCalendar('getDate');
+          var year = date.getYear();
+          return year;
         }
           
 		</script>
@@ -109,7 +115,7 @@
 					
 				<!--Include the generate.php page for creating scheduels -->
 				<?php include("generateSchedule.php"); ?>
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getDate()); window.setTimeout(reloadCalendar(),2000);" />
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear()); window.setTimeout(reloadCalendar(),2000);" />
         </div>
 			</div>
 		</div>
