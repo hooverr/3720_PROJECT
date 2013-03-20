@@ -101,8 +101,6 @@
 		
 		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays, prevSched);
 		
-		alert(schedule);
-		
 		//month in algorithm is 0-11 in database is 1-12
 		month += 1;
 		
