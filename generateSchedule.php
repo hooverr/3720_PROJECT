@@ -1,103 +1,20 @@
-<?php
-	$username = "robh_user";
-	$password = "3720project";
-	$link = mysql_connect("localhost",$username,$password);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	
-	mysql_select_db("robh_3720",$link);
-	
-	$result = mysql_query("SELECT d.Doctor_ID, h.Total_Holiday, h.Total_Weekend, h.Total_Weekday, d.Start_Date, d.End_Date " . 
-	"FROM Doctor_History as h, Doctor as d " . 
-	"WHERE d.Doctor_ID = h.Doctor_ID");
-	
-	if (!$result) {
-		die('Invalid query: ' . mysql_error());
-	}
-	
-	$docHistory = array(array());
-	$counter = 0;
-	
-	while($row = mysql_fetch_assoc($result)) {
-		$docHistory[$counter][0] = $row['Doctor_ID'];
-		$docHistory[$counter][1] = $row['Total_Holiday'];
-		$docHistory[$counter][2] = $row['Total_Weekend'];
-		$docHistory[$counter][3] = $row['Total_Weekday'];
-		$docHistory[$counter][4] = $row['Start_Date'];
-		$docHistory[$counter][5] = $row['End_Date'];
-		$counter++;
-	}
-	
-	$result = mysql_query("SELECT Doctor_ID, Type, Date FROM Requests");
-	
-	if (!$result) {
-		die('Invalid query: ' . mysql_error());
-	}
-	
-	$docRequests = array(array());
-	$counter = 0;
-	
-	while($row = mysql_fetch_assoc($result)) {
-		
-		$day = date('Y-m-d', strtotime($row['Date']));
-		$docRequests[$counter][0] = $row['Doctor_ID'];
-		$docRequests[$counter][1] = $row['Type'];
-		$docRequests[$counter][2] = $day;
-		
-		$counter++;
-	}
-	
-	$yearStart = date('Y') - 1;
-	$yearEnd = date('Y') + 1;
-	
-	$result = mysql_query('SELECT * FROM Schedule WHERE Year BETWEEN '.$yearStart.' AND '.$yearEnd.'');
-	
-	if (!$result) {
-		die('Invalid query: ' . mysql_error());
-	}
-	
-	$priorSchedules = array(array());
-	$counter = 0;
-	
-	while($row = mysql_fetch_assoc($result)) {
-		$priorSchedules[$counter][0] = $row['Year'];
-		$priorSchedules[$counter][1] = $row['Month'];
-		$priorSchedules[$counter][2] = $row['28'];
-		$priorSchedules[$counter][3] = $row['29'];
-		$priorSchedules[$counter][4] = $row['30'];
-		$priorSchedules[$counter][5] = $row['31'];
-		
-		$counter++;
-	}
-	
-	$month = 0;
-	$year = 0;
-	if(date('m') == 12){
-		$month = 0;
-		$year = date('Y') + 1;
-	}
-	else{
-		$month = date('m');
-		$year = date('Y');
-	}
-	
-	$holidays = array();
-?>
 <script type="text/javascript">
 	function prepareAlgorithm(inputMonth, inputYear) {
-	
-		var docHistory = <?php echo json_encode($docHistory) ?>;
+    <?php 
+    include('generateScheduleClass.php');
+    $generateSchedule = new GenerateSchedule(); 
+    ?>
+		var docHistory = <?php echo json_encode($generateSchedule->getDoctorHistory()); ?>;
 		
-		var docRequests = <?php echo json_encode($docRequests) ?>;
+		var docRequests = <?php echo json_encode($generateSchedule->getDoctorRequests()); ?>;
 		
-		var month = inputMonth;//parseInt(<?php echo json_encode($month) ?>);
+		var month = inputMonth;
 		
-		var year = inputYear;//parseInt(<?php echo json_encode($year) ?>);
+		var year = inputYear;
 		
-		var prevSched = <?php echo json_encode($priorSchedules) ?>;
+		var prevSched = <?php echo json_encode($generateSchedule->getSchedules()); ?>;
 		
-		var holidays = <?php echo json_encode($holidays) ?>;
+		var holidays = <?php echo json_encode($generateSchedule->getHolidays()); ?>;
 		
 		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays, prevSched);
 		
