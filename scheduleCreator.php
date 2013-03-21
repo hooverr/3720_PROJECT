@@ -91,7 +91,7 @@ class ScheduleCreator{
             'id' => "$value",
             'title' => $doctorNames[$value],
             'start' => "$year-$monthString-$dayString",
-            'backgroundColor' => $colors[$value % 6]
+            'backgroundColor' => $colors[$value % count($colors)]
         );     
         //add the day to the schedule
         $schedule[] = $dayArray;
