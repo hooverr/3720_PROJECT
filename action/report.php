@@ -122,13 +122,16 @@
                     
                     $this->SetFont('Arial','B',10);
                     $this->Text($xText+($x*40)-($this->GetStringWidth($data[$r][$x]) / 2)+2.45,$yText+($r*25),$data[$r][$x]);
-                    
-                    $this->SetFont('');
-                    
-                    $this->SetFillColor(100,230,100);
-                    $this->Rect($xText+($x*40)+1,$yText+($r*25)+2,38,5,'F');
-                    $this->Text($xText+($x*40)+2,$yText+($r*25)+5.5,'Test Doctor Man');
-                    $this->SetFillColor(224,235,255);
+                    if($data[$r][$x] != ' ')
+                    {
+                            
+                        $this->SetFont('');
+                        
+                        $this->SetFillColor(100,230,100);
+                        $this->Rect($xText+($x*40)+1,$yText+($r*25)+2,38,5,'F');
+                        $this->Text($xText+($x*40)+2,$yText+($r*25)+5.5,'Test Doctor Man');
+                        $this->SetFillColor(224,235,255);
+                    }
                 }
                 $this->Ln();
                 $fill = !$fill;
