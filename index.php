@@ -41,8 +41,7 @@
 				var date = new Date();
 				var d = date.getDate();
 				var m = date.getMonth();
-				var y = date.getFullYear();
-				
+				var y = date.getFullYear();	
 				$('#calendar').fullCalendar({
 					firstDay:1, 
 					editable:true,
@@ -50,7 +49,9 @@
           height: 600,
           weekMode:'variable',
 					eventClick: function(event){
-						alert('Doctor: ' + event.title);
+						$( "#dialog-form").dialog( "open");
+            var value = event.id;
+            $("#doctor").val(value);
 					},
 					eventSources: [	
 						{
@@ -91,7 +92,21 @@
           var year = date.getFullYear();
           return year;
         }
-          
+        
+        $(function(){
+          $( "#dialog-form").dialog(
+          { autoOpen:false,
+            buttons: {
+              Update: function(){
+              
+              },
+              Cancel: function() {
+                $( this ).dialog( "close" );
+              },
+            }
+          });
+        });
+        
 		</script>
 				
 	</head>
@@ -111,6 +126,24 @@
 					<li><a href="testing.php">Testing</a></li>
 				</ul>
 				<div id="tabs-1">
+          <div id ="dialog-form" title="Update Scheduled Doctor">
+            <form>
+              <?php
+               $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+                $query = "SELECT doctor_id, name from Doctor"; 
+                if($result = $mysqli->query($query)){
+                  echo '<select id = "doctor">';
+                  while($row= $result->fetch_assoc()){
+                    echo '<option value='.$row["doctor_id"].'>'.$row["name"].'</option>';
+                  }
+                  echo '</select>';
+                  $result->free;
+                }
+                $mysqli->close(); 
+              ?>
+            </form>
+          </div>
+          
 					<div id="calendar"></div>
 					
 				<!--Include the generate.php page for creating scheduels -->
@@ -122,3 +155,4 @@
 		<footer></footer>
 	</body>
 </html>
+          

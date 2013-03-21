@@ -88,7 +88,7 @@ class ScheduleCreator{
         $dayString = str_pad($day,2,"0",STR_PAD_LEFT);
         $monthString = str_pad($month,2,"0",STR_PAD_LEFT);
         $dayArray = array(
-            'id' => "$year-$monthString-$dayString",
+            'id' => "$value",
             'title' => $doctorNames[$value],
             'start' => "$year-$monthString-$dayString",
             'backgroundColor' => $colors[$value % 6]
