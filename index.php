@@ -148,7 +148,7 @@
 					
 				<!--Include the generate.php page for creating scheduels -->
 				<?php include("generateSchedule.php"); ?>
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear()); window.setTimeout(reloadCalendar(),2000);" />
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear()); window.setTimeout(reloadCalendar(),5000);" />
         </div>
 			</div>
 		</div>
