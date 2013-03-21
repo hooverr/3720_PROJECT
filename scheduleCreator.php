@@ -78,8 +78,7 @@ class ScheduleCreator{
       
       //Color options for doctors
       //@todo create a color for the number of unique doctors
-      $colors = array("#F7D45A","#7DDB90","#B8d7C4","#6600CC","#CC3300","#CCCC33","#FF9966","#6666CC","#0066CC"
-      "#8899EF","#7E2447","5C3ABE","#CE6C8C","#8BC532","420B5F");
+      $colors = array("#F7D45A","#7DDB90","#B8D7C4","#6600CC","#CC3300","#CCCC33","#FF9966","#6666CC","#0066CC""#8899EF","#7E2447","5C3ABE","#CE6C8C","#8BC532","420B5F");
       
       
       //index, increments for each day scheduled 
