@@ -113,6 +113,11 @@
 	  
 	  document.getElementById('schedule').focus();
         });
+		
+		function loadPhp(){
+			$('#phpload').load('generateSchedule.php');
+		}
+		
 		</script>
 				
 	</head>
@@ -134,32 +139,32 @@
 					<li><a href="testing.php">Testing</a></li>
 				</ul>
 				<div id="tabs-1">
-          <div id ="dialog-form" title="Update Scheduled Doctor">
-            <form>
-              <?php
-               $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
-                $query = "SELECT doctor_id, name from Doctor"; 
-                if($result = $mysqli->query($query)){
-                  echo '<select id = "doctor">';
-                  while($row= $result->fetch_assoc()){
-                    echo '<option value='.$row["doctor_id"].'>'.$row["name"].'</option>';
-                  }
-                  echo '</select>';
-                  $result->free;
-                }
-                $mysqli->close(); 
-              ?>
-            </form>
-          </div>
+					  <div id ="dialog-form" title="Update Scheduled Doctor">
+						<form>
+						  <?php
+						   $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+							$query = "SELECT doctor_id, name from Doctor"; 
+							if($result = $mysqli->query($query)){
+							  echo '<select id = "doctor">';
+							  while($row= $result->fetch_assoc()){
+								echo '<option value='.$row["doctor_id"].'>'.$row["name"].'</option>';
+							  }
+							  echo '</select>';
+							  $result->free;
+							}
+							$mysqli->close(); 
+						  ?>
+						</form>
+					  </div>
           
 					<div id="calendar"></div>
 					
-			<?php
-				include("generateSchedule.php");
-			?>
-				<!--Include the generate.php page for creating scheduels -->
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear());" />
-        </div>
+					
+					<div id="phpload"></div>
+					<input id="loadphp" type="button" value="Temp Load php" onclick="loadPhp();" />
+					<!--Include the generate.php page for creating scheduels -->
+					<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear());" />
+				</div>
 			</div>
 		</div>
 		

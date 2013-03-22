@@ -8,7 +8,7 @@
 
 	mysql_select_db("robh_3720",$link);
 
-	$result = mysql_query("SELECT d.Doctor_ID, h.Total_Holiday, h.Total_Weekend, h.Total_Weekday, d.Start_Date, d.End_Date " . 
+	$result = mysql_query("SELECT d.Doctor_ID, h.Total_Holiday, h.Total_Weekend, h.Total_Weekday, h.Holiday, h.Weekend, h.Weekday, d.Start_Date, d.End_Date " . 
 	"FROM Doctor_History as h, Doctor as d " . 
 	"WHERE d.Doctor_ID = h.Doctor_ID");
 
@@ -26,6 +26,9 @@
 		$docHistory[$counter][3] = $row['Total_Weekday'];
 		$docHistory[$counter][4] = $row['Start_Date'];
 		$docHistory[$counter][5] = $row['End_Date'];
+		$docHistory[$counter][6] = $row['Holiday'];
+		$docHistory[$counter][7] = $row['Weekend'];
+		$docHistory[$counter][8] = $row['Weekday'];
 		$counter++;
 	}
 
@@ -82,7 +85,11 @@
 		$year = date('Y');
 	}
 
-	$holidays = array();
+	require_once('holidayCreator.php');
+	$holidayCreator = new HolidayCreator();
+	$year = date("Y");
+	
+	$holidays = $holidayCreator->dateArray($year, $year+1);
 ?>
 <script type="text/javascript">
 	function prepareAlgorithm(inputMonth, inputYear) {
@@ -99,7 +106,15 @@
 		
 		var holidays = <?php echo json_encode($holidays) ?>;
 		
-		var schedule = schedAlgorithm(docHistory, docRequests, month, year, holidays, prevSched);
+		var generateReturn = schedAlgorithm(docHistory, docRequests, month, year, holidays, prevSched);
+		
+		//retrieve the schedule array from the multi-value return of schedAlgorithm(...)
+		var schedule = generateReturn.sched;
+		
+		alert(schedule);
+		
+		//retrieve the doctor information array from the multi-value return of schedAlgorithm(...)
+		var doctors = generateReturn.doctors;
 		
 		//month in algorithm is 0-11 in database is 1-12
 		month += 1;
@@ -107,8 +122,9 @@
 		month = JSON.stringify(month);
 		year = JSON.stringify(year);
 		schedule = JSON.stringify(schedule);
+		doctors = JSON.stringify(doctors);
 		
-		$.post('writeSchedule.php', { 'month': month, 'year': year, 'schedule': schedule })
+		$.post('writeSchedule.php', { 'month': month, 'year': year, 'schedule': schedule, 'doctors': doctors })
 		.done(function(){
 		$('#calendar').fullCalendar( 'refetchEvents' );});
 		
@@ -122,7 +138,7 @@
 
 		Parameters:
 
-			doctors - array parameter (multidimensional array containing doctorID, holidays worked, weekend days worked, weekday days worked, start date, end date)
+			doctors - array parameter (multidimensional array containing doctorID, total holidays worked, total weekend days worked, total weekday days worked, start date, end date, holiday days worked, weekend days worked, weekdays worked)
 			requests - array parameter (multidimensional array containing doctorID, request on/off, day)
 			month - integer argument (0=Jan, 1=Feb, ..., 10=Nov, 11=Dec)
 			year - integer argument (2013, 2014, etc) 
@@ -134,7 +150,26 @@
 			an array containing doctorID for each day (array position + 1)
 
 	*/
-	function schedAlgorithm(doctors, requests, month, year, holidays, prevSched) {
+	function schedAlgorithm(doctors, requests, month, year, holidaysForYear, prevSched) {
+		
+		var holidays = new Array();
+		
+		//variable: date variable to temporarily hold the date of a holiday
+		var holDate;
+		var holDateYear;
+		var holDateMonth;
+		
+		//loop to place only the day of the month for each holiday in the month being scheduled
+		for(var z = 0; z < holidaysForYear.length; z++) {
+			holDate = new Date(holidaysForYear[z]);
+			//increment date - day is lost when converting from array to date object
+			holDate.setDate(holDate.getDate() + 1);
+			holDateYear = holDate.getFullYear();
+			holDateMonth = holDate.getMonth();
+			if((holDateYear == year) && (holDateMonth == month)) {
+				holidays.push(holDate.getDate());
+			}
+		}
 		
 		var numDays; // variable: number of days in the month to be scheduled
 
@@ -216,14 +251,14 @@
 					if (holiday)
 						wEndHoliday = true;
 
-
 					if (i != 0) {
 						// assign doctor to sched array
 						sched[i] = prevDocID;
 						//increment doctors weekend days worked
-						for(var x = 0; x < doctors.length; x++) {
-							if(doctors[x][0] == prevDocID) {
-								doctors[x][2] += 1;
+						for(var z = 0; z < doctors.length; z++) {
+							if(doctors[z][0] == prevDocID) {
+								doctors[z][2] = (parseInt(doctors[z][2]) + 1).toString();
+								doctors[z][7] = (parseInt(doctors[z][7]) + 1).toString();
 								break;
 							}
 						}
@@ -236,17 +271,17 @@
 						if(month == 12) 
 							prevMonth = 0;
 						
-						for(var x = 0; x < prevSched.length; x++) {
+						for(var z = 0; z < prevSched.length; z++) {
 							
-							if(prevSched[x][1] == prevMonth) {
-								if(((month == 0) && (prevSched[x][0] == year-1)) || ((month != 0) && (prevSched[x][0] == year))) {
-									var z = 5;
-									while(z >= 2) {
-										if(prevSched[x][z] !== null){
-											prevDocID = prevSched[x][z];
+							if(prevSched[z][1] == prevMonth) {
+								if(((month == 0) && (prevSched[z][0] == year-1)) || ((month != 0) && (prevSched[z][0] == year))) {
+									var j = 5;
+									while(j >= 2) {
+										if(prevSched[z][j] !== null){
+											prevDocID = prevSched[z][j];
 											break;
 										}
-										z--;
+										j--;
 									}
 								}
 							}
@@ -262,9 +297,10 @@
 							prevDocID = docSorted[docPosition][0];
 							
 						}
-						for(var x = 0; x < doctors.length; x++) {
-							if(doctors[x][0] == prevDocID) {
-								doctors[x][2] += 1;
+						for(var z = 0; z < doctors.length; z++) {
+							if(doctors[z][0] == prevDocID) {
+								doctors[z][2] = (parseInt(doctors[z][2]) + 1).toString();
+								doctors[z][7] = (parseInt(doctors[z][7]) + 1).toString();
 								break;
 							}
 						}
@@ -277,10 +313,62 @@
 					// weekday cases
 				case 1: //Monday
 					if (holiday || wEndHoliday) {
-						// reset weekend holiday boolean to false
-						wEndHoliday = false;
-						sched[i] = doctors[docPosition][0];
-						doctors[docPosition][1] += 1;
+						if (i != 0) {
+							// assign doctor to sched array
+							sched[i] = prevDocID;
+							//increment doctors weekend days worked
+							for(var z = 0; z < doctors.length; z++) {
+								if(doctors[z][0] == prevDocID) {
+									doctors[z][1] = (parseInt(doctors[z][1]) + 1).toString();
+									doctors[z][6] = (parseInt(doctors[z][6]) + 1).toString();
+									break;
+								}
+							}
+						
+						} else {
+						
+							prevDocID = 0;
+						
+							var prevMonth = month - 1;
+							if(month < 0) 
+								prevMonth = 11;
+							
+							for(var z = 0; z < prevSched.length; z++) {
+								
+								if(prevSched[z][1] == prevMonth) {
+									if(((month == 0) && (prevSched[z][0] == year-1)) || ((month != 0) && (prevSched[z][0] == year))) {
+										var j = 5;
+										while(j >= 2) {
+											if(prevSched[z][j] !== null){
+												prevDocID = prevSched[z][j];
+												break;
+											}
+											j--;
+										}
+									}
+								}
+							}
+							
+							if(prevDocID == 0) {
+								
+								docSorted = sort(doctors, 1).slice();
+								reqSorted = sort(requests, 1).slice();
+
+								docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
+
+								prevDocID = docSorted[docPosition][0];
+								
+							}
+							for(var z = 0; z < doctors.length; z++) {
+								if(doctors[z][0] == prevDocID) {
+									doctors[z][1] = (parseInt(doctors[z][1]) + 1).toString();
+									doctors[z][6] = (parseInt(doctors[z][6]) + 1).toString();
+									break;
+								}
+							}
+							
+							sched[i] = prevDocID
+							}
 						break;
 					} else {
 						docSorted = sort(doctors, 3).slice();
@@ -289,7 +377,8 @@
 						docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
 						sched[i] = docSorted[docPosition][0];
-						docSorted[docPosition][3] += 1;
+						docSorted[docPosition][3] = (parseInt(doctors[docPosition][3]) + 1).toString();
+						docSorted[docPosition][8] = (parseInt(doctors[docPosition][8]) + 1).toString();
 						doctors = docSorted.slice();
 						break;
 					}
@@ -302,10 +391,14 @@
 					docPosition = findDoctor(year, month, i, docSorted, reqSorted, false);
 
 					sched[i] = docSorted[docPosition][0];
-					if (holiday)
-						docSorted[docPosition][1] += 1;
-					else
-						docSorted[docPosition][3] += 1;
+					if (holiday){
+						docSorted[docPosition][1] = (parseInt(doctors[docPosition][1]) + 1).toString();
+						docSorted[docPosition][6] = (parseInt(doctors[docPosition][6]) + 1).toString();
+					}
+					else {
+						docSorted[docPosition][3] = (parseInt(doctors[docPosition][3]) + 1).toString();
+						docSorted[docPosition][8] = (parseInt(doctors[docPosition][8]) + 1).toString();
+					}
 
 					doctors = docSorted.slice();
 					break;
@@ -317,17 +410,23 @@
 
 					sched[i] = docSorted[docPosition][0];
 					prevDocID = docSorted[docPosition][0];
-					if (holiday)
-						docSorted[docPosition][1] += 1;
-					else
-						docSorted[docPosition][3] += 1;
-
+					if (holiday){
+						docSorted[docPosition][1] = (parseInt(doctors[docPosition][1]) + 1).toString();
+						docSorted[docPosition][6] = (parseInt(doctors[docPosition][6]) + 1).toString();
+					}
+					else {
+						docSorted[docPosition][3] = (parseInt(doctors[docPosition][3]) + 1).toString();
+						docSorted[docPosition][8] = (parseInt(doctors[docPosition][8]) + 1).toString();
+					}
 					doctors = docSorted.slice();
 					break;
 			}
 		}
 		
-		return sched;
+		return {
+			'sched' : sched,
+			'doctors' : doctors
+		};
 	}
 
 	/* 
@@ -351,7 +450,7 @@
 			if (a[sortBy] == b[sortBy]) return 0;
 			return a[sortBy] < b[sortBy] ? -1 : 1;
 		});
-
+		
 		return arrayToSort;
 	}
 

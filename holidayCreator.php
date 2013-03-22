@@ -146,12 +146,15 @@ class HolidayCreator{
     An array of holidays for the provided year.
       
   */
-  public function dateArray($year){
-      $holidayArray = $this->createCalendarHolidayArray($year);
-      
+  public function dateArray($yearCurrent, $yearNext){
+      $holidayCurrentArray = $this->createCalendarHolidayArray($yearCurrent);
+      $holidayNextArray = $this->createCalendarHolidayArray($yearNext);
+	  
+	  $holidayArray = array_merge($holidayCurrentArray, $holidayNextArray);
+	  
       foreach($holidayArray as $holiday){
         $dateArray[] = $holiday['start'];
-      }   
+      }
       return $dateArray;
   }
   /*

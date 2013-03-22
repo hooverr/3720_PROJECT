@@ -23,7 +23,7 @@ class ScheduleCreator{
       while($row= $result->fetch_assoc()){
         $nameArray[$row["doctor_id"]] = $row["name"];
        }
-      $result->free;
+      $result->free();
     }
     $mysqli->close();
     return $nameArray;
@@ -48,7 +48,7 @@ class ScheduleCreator{
       $return[$i] = $row;
       $i++;
     }
-    $result->free;
+    $result->free();
     $mysqli->close();
    
     return $return;

@@ -5,6 +5,9 @@ if(isset($_REQUEST['month']) && isset($_REQUEST['year']) && isset($_REQUEST['sch
   //Remove slashes inserted by server
   $schedule = stripslashes(($_REQUEST['schedule']));
   $schedule = json_decode($schedule);
+  //Remove slashes inserted by server
+  $doctors = stripslashes(($_REQUEST['doctors']));
+  $doctors = json_decode($doctors);
   
   $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
   if ($mysqli->connect_error) {
@@ -26,6 +29,12 @@ if(isset($_REQUEST['month']) && isset($_REQUEST['year']) && isset($_REQUEST['sch
   }
  
   $mysqli->query($query);
+  
+  foreach($doctors as $doctor) {
+	$query = "UPDATE Doctor_History SET Holiday=$doctor[6], Weekend=$doctor[7], Weekday=$doctor[8] WHERE Doctor_ID=$doctor[0]";
+	$mysqli->query($query);
+  }
+  
   $mysqli->close();
   }
 ?>
