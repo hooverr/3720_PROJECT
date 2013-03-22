@@ -39,7 +39,7 @@
     
             mysql_select_db("robh_3720",$link);
     
-            $result = mysql_query("select * from Schedule where Month = ".$_GET["month"]) or die(mysql_error());
+            $result = mysql_query("select * from Schedule where Month = ".$_GET["month"]." and Year = ".date("Y")) or die(mysql_error());
     
             if (!$result) {
                 die('Invalid query: ' . mysql_error());
