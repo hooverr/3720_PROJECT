@@ -106,7 +106,9 @@
             }
           });
         });
-        
+        function loadPhp(){
+          $('#phpload').load('generateSchedule.php');
+        }
 		</script>
 				
 	</head>
@@ -147,7 +149,8 @@
 					<div id="calendar"></div>
 					
 				<!--Include the generate.php page for creating scheduels -->
-				<?php include("generateSchedule.php"); ?>
+        <div id="phpload"></div>
+				<input id="loadphp" type="button" value="Temp Load php" onclick="loadPhp();" />
 				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear()); window.setTimeout(reloadCalendar(),5000);" />
         </div>
 			</div>
