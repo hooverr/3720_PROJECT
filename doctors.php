@@ -2,16 +2,40 @@
 <html>
 	<head>
 		<script type="text/javascript">
-			
+		
+		var doctorData = new Array();
+		<?php						
+			$username = "robh_user";
+			$password = "3720project";
+			$link = mysql_connect("localhost",$username,$password);
+			if (!$link) {
+			    die('Could not connect: ' . mysql_error());
+			}
+
+			mysql_select_db("robh_3720",$link);
+
+			$result = mysql_query('SELECT * from Doctor');
+			if (!$result) {
+			    die('Invalid query: ' . mysql_error());
+			}
+
+			while ($row = mysql_fetch_assoc($result)) {
+			    echo "doctorData[".$row['Doctor_ID']."] = new Array();";
+			    echo "doctorData[".$row['Doctor_ID']."][0] = \"".$row['Name']."\";";
+			    echo "doctorData[".$row['Doctor_ID']."][1] = \"".$row['Phone']."\";";
+			    echo "doctorData[".$row['Doctor_ID']."][2] = \"".$row['Start_Date']."\";";
+			    echo "doctorData[".$row['Doctor_ID']."][3] = \"".$row['End_Date']."\";";
+			}
+
+			mysql_free_result($result);
+			mysql_close($link);
+		?>
 		function changeFunc()
 		{
 			$('input[name="docSubmit"]').val($("#funcSelect").val());
 			if($("#funcSelect").val() == "Update")
 			{
-				var vals = $('select[name="doc"] option:selected').text().split(" ");
-				$('input[name="firstName"]').val(vals[0]);
-				$('input[name="lastName"]').val(vals[1]);
-				$('input[name="phoneNumber"]').val($('select[name="doc"] option:selected').val().split("|")[1]);
+				
 				$( 'input[name="startDatePicker"]' ).show();
 				$( "#startDatePickerLabel" ).show();
 				$( 'input[name="endDatePicker"]' ).hide();
@@ -42,6 +66,13 @@
 				$( 'tr[name^="edit"]').hide();
 				$( 'tr[name^="editD"]').show();
 			}
+			var doctorID = $('select[name="doc"] option:selected').val();
+			var vals = doctorData[doctorID][0].split(" ");
+			$('input[name="firstName"]').val(vals[0]);
+			$('input[name="lastName"]').val(vals[1]);
+			$('input[name="phoneNumber"]').val( doctorData[doctorID][1]);
+			$( 'input[name="startDatePicker"]' ).val( doctorData[doctorID][2]);
+			$( 'input[name="endDatePicker"]' ).val( doctorData[doctorID][3]);
 		}
 			
 			
@@ -66,7 +97,13 @@
 								endDatePicker	: $('input[name="endDatePicker"]').val()
 							  },
 						success : function( data ) {
-							$('#message').html(data);
+								$('#message').html(data);
+								var doctorID = $('select[name="doc"]').val();
+								doctorData[doctorID][0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
+								doctorData[doctorID][1] = $('input[name="phoneNumber"]').val();
+								doctorData[doctorID][2] = $('input[name="startDatePicker"]').val();
+								doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
+								$("#docOpt"+doctorID).text(doctorData[doctorID][0]);
 							}
 						});
 						event.preventDefault();
@@ -120,7 +157,7 @@
 												}
 			
 												while ($row = mysql_fetch_assoc($result)) {
-												    echo "<option value=\"".$row['Doctor_ID']."|".$row['Phone']."\">".$row['Name']."</option>";
+												    echo "<option id=\"docOpt".$row['Doctor_ID']."\" value=\"".$row['Doctor_ID']."\">".$row['Name']."</option>";
 												}
 			
 												mysql_free_result($result);

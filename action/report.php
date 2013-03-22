@@ -38,8 +38,8 @@
             }
     
             mysql_select_db("robh_3720",$link);
-    
-            $result = mysql_query("select * from Schedule where Month = ".$_GET["month"]." and Year = ".date("Y")) or die(mysql_error());
+            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
+            $result = mysql_query("select * from Schedule where Month = ".$month." and Year = ".date("Y")) or die(mysql_error());
     
             if (!$result) {
                 die('Invalid query: ' . mysql_error());
@@ -61,9 +61,9 @@
         }
         function SetupCalendar()
         {
-            $day =  (int) date("w", mktime(0, 0, 0, $_GET["month"], 1, date("Y"))); // to get the first weekday
+            $day =  (int) date("w", mktime(0, 0, 0, $month, 1, date("Y"))); // to get the first weekday
       
-            $daysInMonth = date("t", mktime(0, 0, 0, $_GET["month"], 1, date("Y"))); // number of days in the month.
+            $daysInMonth = date("t", mktime(0, 0, 0, $month, 1, date("Y"))); // number of days in the month.
             
             
             $data = array();
@@ -99,8 +99,9 @@
             // Title
             $today = getdate();
             
+            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
             
-            $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $_GET["month"], 1, date("Y"))).' '.date('Y'));
+            $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, date("Y"))).' '.date('Y'));
 
             $this->Line(41,12.5,290,12.5);
             
