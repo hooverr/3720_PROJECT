@@ -74,12 +74,17 @@
 					"Couldn't load this tab. We'll try to fix this as soon as possible. " +
 					"If this wouldn't be a demo." );
 				    });
+				  },
+				  activate: function( event, ui ) {
+					if($('#mainTab').parent().hasClass('ui-tabs-active'))
+					{
+						$('#calendar').fullCalendar( 'refetchEvents' );
+						document.getElementById('schedule').focus();
+					}
 				  }
 				});
 			      });
-        function reloadCalendar(){
-          $('#calendar').fullCalendar( 'refetchEvents' )
-        }
+        
         
         function getMonth(){
           var date = $('#calendar').fullCalendar('getDate');
@@ -105,14 +110,15 @@
               },
             }
           });
+	  
+	  document.getElementById('schedule').focus();
         });
-        function loadPhp(){
-          $('#phpload').load('generateSchedule.php');
-        }
 		</script>
 				
 	</head>
 	<body>
+		
+        <div id="phpload"></div>
 		<div style="width:960px; margin-left:auto; margin-right:auto;">
 			
 			<header class="ui-state-default ui-corner-all" style="width:934px;">
@@ -121,7 +127,7 @@
 		
 			<div id="navigation">
 				<ul>
-					<li><a href="#tabs-1" onclick="reloadCalendar();">Calendar</a></li>
+					<li><a id="mainTab" href="#tabs-1">Calendar</a></li>
 					<li><a href="doctors.php">Doctors</a></li>
 					<li><a href="requests.php">Requests</a></li>
 					<li><a href="reports.php">Reports</a></li>
@@ -148,13 +154,15 @@
           
 					<div id="calendar"></div>
 					
+			<?php
+				include("generateSchedule.php");
+			?>
 				<!--Include the generate.php page for creating scheduels -->
-        <div id="phpload"></div>
-				<input id="loadphp" type="button" value="Temp Load php" onclick="loadPhp();" />
-				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear()); window.setTimeout(reloadCalendar(),5000);" />
+				<input id="schedule" type="button" value="Create Schedule" onclick="prepareAlgorithm(getMonth(), getYear());" />
         </div>
 			</div>
 		</div>
+		
 		<footer></footer>
 	</body>
 </html>
