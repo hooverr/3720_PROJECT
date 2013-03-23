@@ -95,7 +95,11 @@
       });
       
       function update(newDoctor,oldDoctor,date){
-       $.post('updateSchedule.php', { 'newDoctor': newDoctor, 'oldDoctor': oldDoctor, 'date': date});    
+       var date = new Date(date);
+       var month = date.getMonth() +1; //sending to php which uses a normal month numbering system
+       var year = date.getFullYear();
+       var day = date.getDate();
+       $.post('updateSchedule.php', { 'newDoctor': newDoctor, 'oldDoctor': oldDoctor, 'month': month, 'day':day,'year':year});    
       }      
       $(function(){
         $( "#dialog-form").dialog({ 
