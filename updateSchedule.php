@@ -10,7 +10,6 @@ if(isset($_REQUEST['newDoctor']) && isset($_REQUEST['oldDoctor']) && isset($_REQ
   
   //figure out what kind of day it is
   $date = date("D",strtotime("$month/$day/$year"));
-  $fp = fopen('log.txt',"w");
   if("$date" == "Sat" || "$date" == "Sun"){
     $type = "Weekend";
   }else{
@@ -31,14 +30,12 @@ if(isset($_REQUEST['newDoctor']) && isset($_REQUEST['oldDoctor']) && isset($_REQ
         $type = "Holiday";
       }
   }
-  fwrite($fp,$type);
   $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
   //set the new doctor to the schedule
   $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year";
 	$mysqli->query($query);
   //decrement old doctors history
   $query = "UPDATE Doctor_History SET `$type`= `$type`-1 WHERE `Doctor_Id` = $oldDoctor";
-
   $mysqli->query($query);
   //increment new doctors history
   $query = "UPDATE Doctor_History SET `$type`=`$type`+1 WHERE `Doctor_Id` = $newDoctor";
