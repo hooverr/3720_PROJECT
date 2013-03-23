@@ -596,6 +596,8 @@
 					// if request off
 				else if (requests[requestIncrement][1] == 0) {
 					var reqDate = new Date(requests[requestIncrement][2]);
+					// increment for lost day - javascript issue
+					reqDate.setDate(reqDate.getDate() + 1);
 					
 					if(weekendCheck) {
 						// if request is for current day, month, year
