@@ -20,7 +20,7 @@ if(isset($_REQUEST['newDoctor']) && isset($_REQUEST['oldDoctor']) && isset($_REQ
   $holidayArray = $holidayCreator->dateArray($year,NULL); 
   foreach($holidayArray as $holiday){
       //A holiday that falls on a weekend, increments weekend not holiday. Holiday incremented on the monday.
-      if(("$holiday" == "$year-$month-$day") && ($type != "Weekend"){
+      if(("$holiday" == "$year-$month-$day") && ($type != "Weekend")){
         $type = "Holiday";
       }
   }
