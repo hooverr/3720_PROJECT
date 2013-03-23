@@ -99,14 +99,19 @@
        var month = date.getMonth() +1; //sending to php which uses a normal month numbering system
        var year = date.getFullYear();
        var day = date.getDate();
-       $.post('updateSchedule.php', { 'newDoctor': newDoctor, 'oldDoctor': oldDoctor, 'month': month, 'day':day,'year':year});    
+       $.post('updateSchedule.php', { 'newDoctor': newDoctor, 'oldDoctor': oldDoctor, 'month': month, 'day':day,'year':year}).done(function(){
+       $('#calendar').fullCalendar( 'refetchEvents' );
+       $("#dialog-form").dialog( "close");
+       }); 
+       
       }      
       $(function(){
         $( "#dialog-form").dialog({ 
           autoOpen:false,
           buttons: {
             Update: function(){
-              update($("#doctor").val(),$("#previousDoctor").val(),$("#dateInput").val());         
+              update($("#doctor").val(),$("#previousDoctor").val(),$("#dateInput").val());
+          
             },
             Cancel: function() {
               $( this ).dialog( "close" );
