@@ -35,7 +35,7 @@
     <!-- 
     Set up the calendar
     -->
-    <script type='text/javascript'>
+    <script type='text/javascript'>  
       $(document).ready(function() {
         var date = new Date();
         var d = date.getDate();
@@ -51,6 +51,9 @@
             $( "#dialog-form").dialog( "open");
             var value = event.id;
             $("#doctor").val(value);
+            var date = event.start;
+            $("#dateInput").val(date);
+            $("#previousDoctor").val(value);
           },
           eventSources: [	
             {
@@ -91,11 +94,15 @@
         });
       });
       
+      function update(newDoctor,oldDoctor,date){
+       $.post('updateSchedule.php', { 'newDoctor': newDoctor, 'oldDoctor': oldDoctor, 'date': date});    
+      }      
       $(function(){
         $( "#dialog-form").dialog({ 
           autoOpen:false,
           buttons: {
             Update: function(){
+              update($("#doctor").val(),$("#previousDoctor").val(),$("#dateInput").val());         
             },
             Cancel: function() {
               $( this ).dialog( "close" );
@@ -133,6 +140,8 @@
             }
             $mysqli->close(); 
             ?>
+            <input id="dateInput" type ="hidden" ></input>
+            <input id="previousDoctor" type="hidden"></input>
           </form>
         </div>  
         <div id="calendar"></div>				
