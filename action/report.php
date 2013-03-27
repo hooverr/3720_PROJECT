@@ -61,7 +61,9 @@
         }
         function SetupCalendar()
         {
+            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
             $day =  (int) date("w", mktime(0, 0, 0, $month, 1, date("Y"))); // to get the first weekday
+
       
             $daysInMonth = date("t", mktime(0, 0, 0, $month, 1, date("Y"))); // number of days in the month.
             
