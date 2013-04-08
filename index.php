@@ -145,7 +145,7 @@
                 echo '<option value='.$row["doctor_id"].'>'.$row["name"].'</option>';
               }
               echo '</select>';
-              $result->free;
+              $result->free();
             }
             $mysqli->close(); 
             ?>
