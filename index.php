@@ -47,6 +47,21 @@
           disableDragging:true,
           height: 600,
           weekMode:'variable',
+          viewDisplay: function(view){
+          
+            //hide the create schedule button for months prior to current
+            //@todo hide button for months that have a schedule
+            var calendarViewDate = $('#calendar').fullCalendar('getDate');
+            var calendarViewMonth = calendarViewDate.getMonth();
+            var currentDate = new Date();
+            var currentMonth = currentDate.getMonth();
+            if(calendarViewMonth < currentMonth){
+              $('#schedule').hide();
+        
+            }else{
+              $('#schedule').show();
+            }
+          },
           eventClick: function(event){
             $( "#dialog-form").dialog( "open");
             var value = event.id;
@@ -74,7 +89,9 @@
             prepareAlgorithm(month,year);
           });
         });
+      
       });
+      
       
       $(function() {
         $( "#navigation" ).tabs({
@@ -131,7 +148,6 @@
         <li><a href="doctors.php">Doctors</a></li>
         <li><a href="requests.php">Requests</a></li>
         <li><a href="reports.php">Reports</a></li>
-        <li><a href="testing.php">Testing</a></li>
       </ul>
       <div id="tabs-1">
         <div id ="dialog-form" title="Update Scheduled Doctor">

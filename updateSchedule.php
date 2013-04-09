@@ -1,17 +1,17 @@
 <?php
 include("holidayCreator.php");
 class updateSchedule{
-  
-  
   private function isHoliday($day,$month,$year){
+    //$fp = fopen('log.txt','w');
+    //fwrite($fp,"isHoliday-$day\n");
+    //fclose($fp);
     $numberOfDaysCurrentMonth = date("t",mktime(0,0,0,$month,1,$year));
     $numberOfDaysPreviousMonth = date("t",mktime(0,0,0,$month-1,1,$year));
-
     if($day < 1){
-      $day = $numberOfDaysPreviousMonth - $day;
-      $insertMonth = $month -1;
+      $day = $numberOfDaysPreviousMonth - abs($day);
+      $month = $month -1;
     }else if ($day > $numberOfDaysCurrentMonth){
-      $day = ($numberOfDaysCurrentMonth - $day) * -1;
+      $day = abs($numberOfDaysCurrentMonth - $day);
       $month = $month +1; 
     }
     
@@ -31,26 +31,19 @@ class updateSchedule{
   }
   
   private function weekend($day,$month,$year,$oldDoctor,$newDoctor){
-  
-    $previousMonth = $month - 1;
- 
-    $numberOfDaysCurrentMonth = date('t',strtotime("$month/$day/$year"));
-    $numberOfDaysPreviousMonth = date('t',strtotime("previousMonth/$day/$year"));
-    
+    $numberOfDaysCurrentMonth = date("t",mktime(0,0,0,$month,1,$year));
+    $numberOfDaysPreviousMonth = date("t",mktime(0,0,0,$month-1,1,$year));
     if($day < 1){
-      $insertDay = $numberOfDaysPreviousMonth - $day;
-      $insertMonth = $month -1;
+      $day = $numberOfDaysPreviousMonth - abs($day);
+      $month = $month -1;
     }else if ($day > $numberOfDaysCurrentMonth){
-      $insertDay = ($numberOfDaysCurrentMonth - $day) * -1;
-      $insertMonth = $month +1; 
-    }else{
-      $insertDay = $day;
-      $insertMonth = $month;
+      $day = abs($numberOfDaysCurrentMonth - $day);
+      $month = $month +1; 
     }
-    
+
     $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
     //set the new doctor to the schedule
-    $query = "UPDATE Schedule SET `$insertDay` = $newDoctor WHERE `Month` = $insertMonth AND `Year` = $year";
+    $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year";
     $mysqli->query($query);
     //decrement old doctors history
     $query = "UPDATE Doctor_History SET `Weekend`= `Weekend`-1 WHERE `Doctor_Id` = $oldDoctor";
@@ -62,25 +55,20 @@ class updateSchedule{
   }
   
   private function holiday($day,$month,$year,$oldDoctor,$newDoctor){
-    $previousMonth = $month - 1;
- 
-    $numberOfDaysCurrentMonth = date('t',strtotime("$month/$day/$year"));
-    $numberOfDaysPreviousMonth = date('t',strtotime("previousMonth/$day/$year"));
+    $numberOfDaysCurrentMonth = date("t",mktime(0,0,0,$month,1,$year));
+    $numberOfDaysPreviousMonth = date("t",mktime(0,0,0,$month-1,1,$year));
     
     if($day < 1){
-      $insertDay = $numberOfDaysPreviousMonth - $day;
-      $insertMonth = $month -1;
+      $day = $numberOfDaysPreviousMonth - abs($day);
+      $month = $month -1;
     }else if ($day > $numberOfDaysCurrentMonth){
-      $insertDay = ($numberOfDaysCurrentMonth - $day) * -1;
-      $insertMonth = $month +1; 
-    }else{
-      $insertDay = $day;
-      $insertMonth = $month;
+      $day = abs($numberOfDaysCurrentMonth - $day);
+      $month = $month +1; 
     }
     
     $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
     //set the new doctor to the schedule
-    $query = "UPDATE Schedule SET `$insertDay` = $newDoctor WHERE `Month` = $insertMonth AND `Year` = $year";
+    $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year";
     $mysqli->query($query);
     //decrement old doctors history
     $query = "UPDATE Doctor_History SET `Holiday`= `Holiday`-1 WHERE `Doctor_Id` = $oldDoctor";
@@ -92,24 +80,20 @@ class updateSchedule{
   }
   
   private function weekday($day,$month,$year,$oldDoctor,$newDoctor){
-     $previousMonth = $month - 1;
- 
-    $numberOfDaysCurrentMonth = date('t',strtotime("$month/$day/$year"));
-    $numberOfDaysPreviousMonth = date('t',strtotime("previousMonth/$day/$year"));
+    $numberOfDaysCurrentMonth = date("t",mktime(0,0,0,$month,1,$year));
+    $numberOfDaysPreviousMonth = date("t",mktime(0,0,0,$month-1,1,$year));
     
     if($day < 1){
-      $insertDay = $numberOfDaysPreviousMonth - $day;
-      $insertMonth = $month -1;
+      $day = $numberOfDaysPreviousMonth - abs($day);
+      $month = $month -1;
     }else if ($day > $numberOfDaysCurrentMonth){
-      $insertDay = ($numberOfDaysCurrentMonth - $day) * -1;
-      $insertMonth = $month +1; 
-    }else{
-      $insertDay = $day;
-      $insertMonth = $month;
+      $day = abs($numberOfDaysCurrentMonth - $day);
+      $month = $month +1; 
     }
+    
     $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
     //set the new doctor to the schedule
-    $query = "UPDATE Schedule SET `$insertDay` = $newDoctor WHERE `Month` = $insertMonth AND `Year` = $year";
+    $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year";
     $mysqli->query($query);
     //decrement old doctors history
     $query = "UPDATE Doctor_History SET `Weekday`= `Weekday`-1 WHERE `Doctor_Id` = $oldDoctor";
@@ -134,17 +118,16 @@ class updateSchedule{
         $this->holiday($day+3,$month,$year,$oldDoctor,$newDoctor);
       }
     }else if("$date" == "Sat"){ 
-    //updateFriday
+      //updateFriday
       $this->weekday($day-1,$month,$year,$oldDoctor,$newDoctor);
-    //updateSaturday
+      //updateSaturday
       $this->weekend($day,$month,$year,$oldDoctor,$newDoctor);
-    //updateSunday
+      //updateSunday
       $this->weekend($day+1,$month,$year,$oldDoctor,$newDoctor);
-      //check if either saturday or sunday is a weekend
-    
-    if($this->isHoliday($day+2,$month,$year)){
-      $this->holiday($day+2,$month,$year,$oldDoctor,$newDoctor);
-    }
+      //check if monday is a holiday 
+      if($this->isHoliday($day+2,$month,$year)){
+        $this->holiday($day+2,$month,$year,$oldDoctor,$newDoctor);
+      }
     }else if("$date" == "Sun"){ 
       //updateFriday
       $this->weekday($day-2,$month,$year,$oldDoctor,$newDoctor);
@@ -152,32 +135,26 @@ class updateSchedule{
       $this->weekend($day-1,$month,$year,$oldDoctor,$newDoctor);
       //updateSunday
       $this->weekend($day,$month,$year,$oldDoctor,$newDoctor);
-      //check if either saturday or sunday is a weekend
-    
-    if($this->isHoliday($day+1,$month,$year)){
-      $this->holiday($day+1,$month,$year,$oldDoctor,$newDoctor);
-    }
-    }else{
-      if($this->isHoliday($day,$month,$year) && "$date" == "Mon"){
+      //check if monday is a holiday 
+      if($this->isHoliday($day+1,$month,$year)){
+        $this->holiday($day+1,$month,$year,$oldDoctor,$newDoctor);
+      }
+    }else if($this->isHoliday($day,$month,$year) && "$date" == "Mon"){ //monday holiday
         //updateFriday
         $this->weekday($day-3,$month,$year,$oldDoctor,$newDoctor);
         //updateSaturday
         $this->weekend($day-2,$month,$year,$oldDoctor,$newDoctor);
         //updateSunday
         $this->weekend($day-1,$month,$year,$oldDoctor,$newDoctor);
-        
+        //update monday(holiday)
         $this->holiday($day,$month,$year,$oldDoctor,$newDoctor);
-      }else if($this->isHoliday($day,$month,$year)){
+    }else if($this->isHoliday($day,$month,$year && "$date" != "Mon")){ //holiday not after weekend
         $this->holiday($day,$month,$year,$oldDoctor,$newDoctor);
-      }
-      else{
-        $this->weekday($day,$month,$year,$oldDoctor,$newDoctor); 
-      }
     }
-
-    
-  }
-  
+    else{
+      $this->weekday($day,$month,$year,$oldDoctor,$newDoctor); 
+    }
+  } 
 }
 if(isset($_REQUEST['newDoctor']) && isset($_REQUEST['oldDoctor']) && isset($_REQUEST['day'])&& isset($_REQUEST['month'])&& isset($_REQUEST['year'])){
   $newDoctor = $_REQUEST['newDoctor'];
@@ -189,6 +166,5 @@ if(isset($_REQUEST['newDoctor']) && isset($_REQUEST['oldDoctor']) && isset($_REQ
   
   $updater = new updateSchedule;
   $updater->update($day,$month,$year,$oldDoctor,$newDoctor);
-  
 }
 ?>
