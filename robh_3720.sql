@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 10, 2013 at 07:28 PM
+-- Generation Time: Apr 10, 2013 at 07:41 PM
 -- Server version: 5.5.30-cll
 -- PHP Version: 5.3.17
 
@@ -33,7 +33,16 @@ CREATE TABLE IF NOT EXISTS `Doctor` (
   `Start_Date` date NOT NULL,
   `End_Date` date DEFAULT NULL,
   PRIMARY KEY (`Doctor_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `Doctor`
+--
+
+INSERT INTO `Doctor` (`Doctor_ID`, `Name`, `Phone`, `Start_Date`, `End_Date`) VALUES
+(2, 'Rob Hoover', '', '2013-04-01', NULL),
+(3, 'steve Fowler', '', '2013-04-01', NULL),
+(4, 'test test', '', '2013-04-01', NULL);
 
 --
 -- Triggers `Doctor`
@@ -43,8 +52,6 @@ DELIMITER //
 CREATE TRIGGER `History  Settings Auto` AFTER INSERT ON `Doctor`
  FOR EACH ROW BEGIN
 INSERT INTO Doctor_History(Doctor_ID)
-VALUES (NEW.Doctor_ID);
-INSERT INTO Settings(Doctor_ID)
 VALUES (NEW.Doctor_ID);
 END
 //
@@ -72,6 +79,15 @@ CREATE TABLE IF NOT EXISTS `Doctor_History` (
   `Previous_Holiday` int(11) NOT NULL DEFAULT '0',
   KEY `Doctor_ID` (`Doctor_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Doctor_History`
+--
+
+INSERT INTO `Doctor_History` (`Doctor_ID`, `Weekday`, `Weekend`, `Holiday`, `Theoretical_Weekend`, `Theoretical_Weekday`, `Theoretical_Holiday`, `Total_Holiday`, `Total_Weekend`, `Total_Weekday`, `Previous_Weekday`, `Previous_Weekend`, `Previous_Holiday`) VALUES
+(2, 21, 8, 1, 0, 0, 0, 1, 8, 21, 0, 0, 0),
+(3, 0, 0, 0, 8, 21, 1, 1, 8, 21, 0, 0, 0),
+(4, 0, 0, 0, 4, 11, 1, 1, 4, 11, 0, 0, 0);
 
 --
 -- Triggers `Doctor_History`
@@ -190,6 +206,13 @@ CREATE TABLE IF NOT EXISTS `Schedule` (
   KEY `30` (`30`),
   KEY `31` (`31`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Schedule`
+--
+
+INSERT INTO `Schedule` (`Month`, `Year`, `1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `13`, `14`, `15`, `16`, `17`, `18`, `19`, `20`, `21`, `22`, `23`, `24`, `25`, `26`, `27`, `28`, `29`, `30`, `31`) VALUES
+(4, 2013, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, NULL);
 
 --
 -- Constraints for dumped tables
