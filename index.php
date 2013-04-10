@@ -87,12 +87,14 @@
             }
           },
           eventClick: function(event){
-            $( "#dialog-form").dialog( "open");
-            var value = event.id;
-            $("#doctor").val(value);
-            var date = event.start;
-            $("#dateInput").val(date);
-            $("#previousDoctor").val(value);
+          $("#dialog-form").load('dialogForm.php',function(){
+              $( "#dialog-form").dialog( "open");
+              var value = event.id;
+              $("#doctor").val(value);
+              var date = event.start;
+              $("#dateInput").val(date);
+              $("#previousDoctor").val(value);
+            });
           },
           eventSources: [	
             {
@@ -174,25 +176,7 @@
         <li><a href="reports.php">Reports</a></li>
       </ul>
       <div id="tabs-1">
-        <div id ="dialog-form" title="Update Scheduled Doctor">
-          <form>
-            <?php
-            $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
-            $query = "SELECT doctor_id, name from Doctor"; 
-            if($result = $mysqli->query($query)){
-              echo '<select id = "doctor">';
-              while($row= $result->fetch_assoc()){
-                echo '<option value='.$row["doctor_id"].'>'.$row["name"].'</option>';
-              }
-              echo '</select>';
-              $result->free();
-            }
-            $mysqli->close(); 
-            ?>
-            <input id="dateInput" type ="hidden" ></input>
-            <input id="previousDoctor" type="hidden"></input>
-          </form>
-        </div>  
+        <div id ="dialog-form" title="Update Scheduled Doctor"></div>  
         <div id="calendar"></div>				
         <div id="phpload"></div>
         <input id="schedule" type="button" value="Create Schedule" />
