@@ -1,4 +1,20 @@
 <html>
+
+<?php
+  $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+  //find first scheduled month
+  $query = "SELECT Month, Year FROM Schedule ORDER BY Year,Month DESC";
+  $month = 0;
+  $year = 0;
+  if($result = $mysqli->query($query)){
+    if($result->num_rows > 0){
+      $row = $result->fetch_array(MYSQLI_ASSOC);
+      $month = $row['Month'];
+      $year = $row['Year'];
+    }
+  }
+  $mysqli->close();
+?>
   <head>
     <title>CPSC 3720 Calls Project</title>
 
@@ -52,14 +68,22 @@
             //hide the create schedule button for months prior to current
             //@todo hide button for months that have a schedule
             var calendarViewDate = $('#calendar').fullCalendar('getDate');
-            var calendarViewMonth = calendarViewDate.getMonth();
+            
             var currentDate = new Date();
-            var currentMonth = currentDate.getMonth();
-            if(calendarViewMonth < currentMonth){
+            currentDate.setMilliseconds(0);
+            currentDate.setSeconds(0);
+            currentDate.setMinutes(0);
+            currentDate.setHours(0);
+            currentDate.setDate(1);
+            
+            var lastScheduleDate = new Date();
+            lastScheduleDate.setYear(<?php echo $year; ?>);
+            lastScheduleDate.setMonth(<?php echo $month-1 ?>);
+            
+            if(calendarViewDate >= currentDate && calendarViewDate > lastScheduleDate){
+              $('#schedule').show();  
+            }else{      
               $('#schedule').hide();
-        
-            }else{
-              $('#schedule').show();
             }
           },
           eventClick: function(event){
