@@ -229,7 +229,7 @@
       
     <div id='doctorHistory'>
 			<table>
-				<tr><th>Name</th><th>Start Date</th><th>End Date</th><th>Weekday</th><th>Weekend</th><th>Holiday</th><th>Vacation</th></tr>
+				<tr><th>Name</th><th>Start Date</th><th>End Date</th><th>Weekday</th><th>Weekend</th><th>Holiday</th></tr>
 				<?php
 					
 					$username = "robh_user";
@@ -241,13 +241,13 @@
 	
 					mysql_select_db("robh_3720",$link);
 	
-					$result = mysql_query('SELECT `Name`,`Start_Date`,`End_Date`,`Weekday`,`Weekend`,`Holiday`,`Vacation` from Doctor_History, Doctor WHERE Doctor_History.Doctor_ID = Doctor.Doctor_ID');
+					$result = mysql_query('SELECT `Name`,`Start_Date`,`End_Date`,`Weekday`,`Weekend`,`Holiday`, from Doctor_History, Doctor WHERE Doctor_History.Doctor_ID = Doctor.Doctor_ID');
 					if (!$result) {
 					    die('Invalid query: ' . mysql_error());
 					}
 	
 					while ($row = mysql_fetch_assoc($result)) {
-					    echo "<tr><td>".$row['Name']."</td><td>".$row['Start_Date']."</td><td>".$row['End_Date']."</td><td>".$row['Weekday']."</td><td>".$row['Weekend']."</td><td>".$row['Holiday']."</td><td>".$row['Vacation']."</td></tr>";
+					    echo "<tr><td>".$row['Name']."</td><td>".$row['Start_Date']."</td><td>".$row['End_Date']."</td><td>".$row['Weekday']."</td><td>".$row['Weekend']."</td><td>".$row['Holiday']."</td><td>"."</td></tr>";
 					}
 	
 					mysql_free_result($result);
