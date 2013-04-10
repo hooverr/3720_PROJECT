@@ -155,7 +155,16 @@
 		//post information to writeSchedule.php to be written to the database
 		$.post('writeSchedule.php', { 'month': inputMonth, 'year': inputYear, 'schedule': schedule, 'doctors': doctors })
 		.done(function(){
-		$('#calendar').fullCalendar( 'refetchEvents' );});
+      $('#calendar').fullCalendar( 'refetchEvents' );
+      $('#schedule').hide();
+      if(lastScheduleMonth < 11){
+        lastScheduleMonth ++;
+      }
+      else{
+        lastScheduleMonth =0;
+        lastScheduleYear ++;
+      }
+    });
 	}
 	
 	/* 
