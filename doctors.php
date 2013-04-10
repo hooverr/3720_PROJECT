@@ -241,7 +241,7 @@
 	
 					mysql_select_db("robh_3720",$link);
 	
-					$result = mysql_query('SELECT `Name`,`Start_Date`,`End_Date`,`Weekday`,`Weekend`,`Holiday`, from Doctor_History, Doctor WHERE Doctor_History.Doctor_ID = Doctor.Doctor_ID');
+					$result = mysql_query('SELECT `Name`,`Start_Date`,`End_Date`,`Weekday`,`Weekend`,`Holiday` from Doctor_History, Doctor WHERE Doctor_History.Doctor_ID = Doctor.Doctor_ID');
 					if (!$result) {
 					    die('Invalid query: ' . mysql_error());
 					}
