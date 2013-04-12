@@ -100,6 +100,9 @@
             {
             url: 'scheduleFeed.php'
             },
+			{
+            url: 'requestFeed.php'
+            },
             {
             url: 'holidayFeed.php',
             color: 'black',

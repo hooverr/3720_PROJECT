@@ -1,0 +1,1 @@
+UPDATE Schedule SET `4` = 17 WHERE `Month` = 7 AND `Year` = 2013

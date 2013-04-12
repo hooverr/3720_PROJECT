@@ -1,20 +1,16 @@
 <?php
-
-	// variable: username to use for MySQL connection
-	$username = "robh_user";
-	// variable: password to use for MySQL connection
-	$password = "3720project";
+	include("login.php");
 	
-	// connection to MySQL
-	$link = mysql_connect("localhost",$username,$password);
+	// connection to MySQL ($host, $username, $password from login.php)
+	$link = mysql_connect($host,$username,$password);
 	
 	// checks if connection to MySQL worked
 	if (!$link) {
 		die('Could not connect: ' . mysql_error());
 	}
 
-	// selection of DB to use
-	mysql_select_db("robh_3720",$link);
+	// selection of DB to use ($database from login.php)
+	mysql_select_db($database,$link);
 
 	// variable: result of the query to retrieve doctor information to use in algorithm
 	$result = mysql_query("SELECT d.Doctor_ID, h.Total_Holiday, h.Total_Weekend, h.Total_Weekday, h.Holiday, h.Weekend, h.Weekday, d.Start_Date, d.End_Date " . 

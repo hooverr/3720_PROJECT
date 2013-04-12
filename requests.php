@@ -5,9 +5,28 @@
 	
 			
 		$(function() {
-		$( 'input[name="requestStartDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
-	
-		//( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
+		//$( 'input[name="requestStartDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
+		
+		$( 'input[name="requestStartDatePicker"]' ).datepicker({ 
+				dateFormat: "yy-mm-dd", 
+                numberOfMonths: 1,
+                onSelect: function(selected) {
+					$('input[name="endDatePicker"]').datepicker("option","minDate", selected)
+				}
+
+			});
+		
+		
+		//$( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
+		
+		$( 'input[name="endDatePicker"]' ).datepicker({ 
+				dateFormat: "yy-mm-dd", 
+                numberOfMonths: 1,
+                onSelect: function(selected) {
+					$('input[name="requestStartDatePicker"]').datepicker("option","maxDate", selected)
+				}
+
+			});
 		
 		$('#RequestForm').submit(function(event)
 					{
@@ -18,7 +37,8 @@
 						data    : {
 								doc		: $('select[name="requestDoctor"]').val(),
 								requestType	: $('input:radio[name="requestType"]:checked').val(),
-								startDatePicker	: $('input[name="requestStartDatePicker"]').val()
+								startDatePicker	: $('input[name="requestStartDatePicker"]').val(),
+								endDatePicker	: $('input[name="endDatePicker"]').val()
 							  },
 						success : function( data ) {
 							$('#requestMessage').html(data);
@@ -46,15 +66,14 @@
 									<td>
 										<select name = "requestDoctor"  style="width: 150px;">
 											<?php
+												include("login.php");
 												
-												$username = "robh_user";
-												$password = "3720project";
-												$link = mysql_connect("localhost",$username,$password);
+												$link = mysql_connect($host,$username,$password);
 												if (!$link) {
 												    die('Could not connect: ' . mysql_error());
 												}
 								
-												mysql_select_db("robh_3720",$link);
+												mysql_select_db($database,$link);
 			
 												$result = mysql_query('SELECT * from Doctor');
 												if (!$result) {
@@ -82,20 +101,20 @@
 								</tr>
 								<tr>
 									<td>
-										<label id="requestStartDatePickerLabel">Select a Date:</label>
+										<label id="requestStartDatePickerLabel">Select Beginning Date:</label>
 									</td>
 									<td>
 										<input style="width: 98%;" type="text" name="requestStartDatePicker"></input>
 									</td>
 								</tr>
-								<!--<tr>
+								<tr>
 									<td>
-										<label id="endDatePickerLabel">Select End Date:</label>
+										<label id="endDatePickerLabel">Select Ending Date:</label>
 									</td>
 									<td>
 										<input style="width: 98%;" type="text" name="endDatePicker"></input>
 									</td>
-								</tr>-->
+								</tr>
 								<tr>
 									<td colspan="2">
 										<input style="width:100%;" type="submit" value="Request"></input>
