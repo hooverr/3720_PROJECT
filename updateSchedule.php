@@ -1,5 +1,6 @@
 <?php
-include("holidayCreator.php");
+include_once("holidayCreator.php");
+include('login.php');
 class updateSchedule{
   private function isHoliday($day,$month,$year,$numberOfDaysCurrentMonth,$numberOfDaysPreviousMonth){
     if($day < 1){
@@ -34,7 +35,8 @@ class updateSchedule{
       $month = $month +1; 
     }
 
-    $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+    include('login.php');
+    $mysqli = new mysqli($host,$username,$password,$database);
     $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year;";
     $query .= "UPDATE Doctor_History SET `Weekend`= `Weekend`-1 WHERE `Doctor_Id` = $oldDoctor;";
     $query .= "UPDATE Doctor_History SET `Weekend`=`Weekend`+1 WHERE `Doctor_Id` = $newDoctor;";
@@ -50,7 +52,8 @@ class updateSchedule{
       $day = abs($numberOfDaysCurrentMonth - $day);
       $month = $month +1; 
     }   
-    $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+    include('login.php');
+    $mysqli = new mysqli($host,$username,$password,$database);
     //set the new doctor to the schedule
     $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year;";
     $query .= "UPDATE Doctor_History SET `Holiday`= `Holiday`-1 WHERE `Doctor_Id` = $oldDoctor;";
@@ -67,7 +70,8 @@ class updateSchedule{
       $day = abs($numberOfDaysCurrentMonth - $day);
       $month = $month +1; 
     } 
-    $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+    include('login.php');
+    $mysqli = new mysqli($host,$username,$password,$database);
     //set the new doctor to the schedule
     $query = "UPDATE Schedule SET `$day` = $newDoctor WHERE `Month` = $month AND `Year` = $year;";
     $query .= "UPDATE Doctor_History SET `Weekday`= `Weekday`-1 WHERE `Doctor_Id` = $oldDoctor;";

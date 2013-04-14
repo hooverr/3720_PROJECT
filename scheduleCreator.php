@@ -6,6 +6,7 @@
   Has the ability to return a jsonString of the created schedule.
 */
 class ScheduleCreator{	
+    
   /*
     Function: getDoctorNames
      
@@ -17,7 +18,8 @@ class ScheduleCreator{
       
   */
   private function getDoctorNames(){
-    $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+    include('login.php'); 
+    $mysqli = new mysqli($host,$username,$password,$database);
     $query = "SELECT doctor_id, name from Doctor"; 
     if($result = $mysqli->query($query)){
       while($row= $result->fetch_assoc()){
@@ -39,7 +41,8 @@ class ScheduleCreator{
       
   */
   private function getDatabaseSchedules(){
-    $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+    include('login.php'); 
+    $mysqli = new mysqli($host,$username,$password,$database);
     $query = "SELECT * FROM Schedule" ; 
     $result = $mysqli->query($query);
     $return = array();

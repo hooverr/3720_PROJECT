@@ -1,4 +1,6 @@
 <?php
+include_once('login.php');
+
 if(isset($_REQUEST['month']) && isset($_REQUEST['year']) && isset($_REQUEST['schedule'])){
   $month = json_decode($_REQUEST['month']);
   $year = json_decode($_REQUEST['year']);
@@ -9,7 +11,7 @@ if(isset($_REQUEST['month']) && isset($_REQUEST['year']) && isset($_REQUEST['sch
   $doctors = stripslashes(($_REQUEST['doctors']));
   $doctors = json_decode($doctors);
   
-  $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+  $mysqli = new mysqli($host,$username,$password,$database );
   if ($mysqli->connect_error) {
       die('Connect Error (' . $mysqli->connect_errno . ') '
               . $mysqli->connect_error);

@@ -1,6 +1,7 @@
 <html>
 <?php
-  $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+  include('login.php');
+  $mysqli = new mysqli($host,$username,$password,$database);
   //find first scheduled month
   $query = "SELECT Month, Year FROM Schedule ORDER BY Year DESC, Month DESC";
   $month = 1;
