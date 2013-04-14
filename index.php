@@ -43,11 +43,6 @@
     -->
     <script type='text/javascript' src='libraries/fullcalendar/fullcalendar.min.js'></script>
 
-    <!--
-    Load jquery for gCal imports
-    -->
-    <script type='text/javascript' src='libraries/fullcalendar/gcal.js'></script>
-
     <!-- 
     Set up the calendar
     -->
