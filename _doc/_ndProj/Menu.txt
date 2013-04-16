@@ -49,6 +49,7 @@ Format: 1.52
 File: `robh_3720`  (SQL\robh_3720.sql)
 File: generateSchedule.php  (generateSchedule.php)
 File: HolidayCreator  (holidayCreator.php)
+File: RequestCreator  (requestCreator.php)
 File: resources\development-bundle\jquery-1.9.1.js  (resources\development-bundle\jquery-1.9.1.js)
 File: resources\js\jquery-1.9.1.js  (resources\js\jquery-1.9.1.js)
 File: ScheduleCreator  (scheduleCreator.php)
