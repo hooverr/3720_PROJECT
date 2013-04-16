@@ -9,7 +9,7 @@
 		
 		$('#ReportForm').submit(function(event)
 					{
-						window.location.href = "action/report.php?month=" + $('select[name="ReportMonth"]').val();
+						window.location.href = "action/report.php?month=" + $('select[name="ReportMonth"] option:selected').val();
 						
 						event.preventDefault();
 					});
@@ -20,18 +20,39 @@
 		<center>
 			<form id = "ReportForm">
 				<select name = "ReportMonth"  style="width: 150px;">
-					<option value="1">January</option>
-					<option value="2">Febuary</option>
-					<option value="3">March</option>
-					<option value="4">April</option>
-					<option value="5">May</option>
-					<option value="6">June</option>
-					<option value="7">July</option>
-					<option value="8">August</option>
-					<option value="9">September</option>
-					<option value="10">October</option>
-					<option value="11">November</option>
-					<option value="12">December</option>
+					<?php
+						$months[1] = "January";
+						$months[2] = "Febuary";
+						$months[3] = "March";
+						$months[4] = "April";
+						$months[5] = "May";
+						$months[6] = "June";
+						$months[7] = "July";
+						$months[8] = "August";
+						$months[9] = "September";
+						$months[10] = "October";
+						$months[11] = "November";
+						$months[12] = "December";
+						include('login.php');
+						$link = mysql_connect($host,$username,$password);
+						if (!$link) {
+						    die('Could not connect: ' . mysql_error());
+						}
+		
+						mysql_select_db($database,$link);
+
+						$result = mysql_query('SELECT Month,Year from Schedule');
+						if (!$result) {
+						    die('Invalid query: ' . mysql_error());
+						}
+
+						while ($row = mysql_fetch_assoc($result)) {
+						    echo "<option value=\"".$row['Month']."-".$row['Year']."\">".$months[$row['Month']]." ".$row['Year']."</option>";
+						}
+
+						mysql_free_result($result);
+						mysql_close($link);
+					?>
 				</select>
 				<input style="width:150px;" type="submit" value="View Report"></input>			
 			</form>

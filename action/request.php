@@ -1,5 +1,5 @@
 <?php
-	include("../login.php");
+    include("../login.php");
 	
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
@@ -24,7 +24,7 @@
 			$dateAsDateFormat = strtotime("+1 day", strtotime($date));
 			$date = date("Y-m-d", $dateAsDateFormat);
 		}
-        print("<b>Request made successfully!</b>");
+        print("Request made successfully!");
         mysql_close($link);
     }
 ?>

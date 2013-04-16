@@ -41,7 +41,7 @@
 								endDatePicker	: $('input[name="endDatePicker"]').val()
 							  },
 						success : function( data ) {
-							$('#requestMessage').html(data);
+							alert(data);
 							}
 						});
 						
@@ -118,11 +118,6 @@
 								<tr>
 									<td colspan="2">
 										<input style="width:100%;" type="submit" value="Request"></input>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<div style="text-align: center;" id="requestMessage"> </div>
 									</td>
 								</tr>
 							</table>

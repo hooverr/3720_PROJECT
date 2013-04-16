@@ -13,7 +13,8 @@
         }
         function getDoctorNames()
         {
-            $mysqli = new mysqli('localhost','robh_user','3720project','robh_3720');
+            include('../login.php');
+            $mysqli = new mysqli($host,$username,$password,$database );
             $query = "SELECT doctor_id, name from Doctor"; 
             if($result = $mysqli->query($query))
             {
@@ -21,25 +22,24 @@
                 {
                     $nameArray[$row["doctor_id"]] = $row["name"];
                 }
-                $result->free;
+                mysqli_free_result($result);
             }
             $mysqli->close();
             return $nameArray;
         }
         function GetDoctorData()
         {
-            $colors = array("#F7D45A","#7DDB90","#B8D7C4","#6600CC","#CC3300","#CCCC33","#FF9966","#6666CC","#0066CC","#8899EF","#7E2447","5C3ABE","#CE6C8C","#8BC532","420B5F");
+            include('../login.php');
+	    $colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd");							
             $names = $this->getDoctorNames();
-            $username = "robh_user";
-            $password = "3720project";
-            $link = mysql_connect("localhost",$username,$password);
+            $link = mysql_connect($host,$username,$password);
             if (!$link) {
                 die('Could not connect: ' . mysql_error());
             }
     
-            mysql_select_db("robh_3720",$link);
-            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
-            $result = mysql_query("select * from Schedule where Month = ".$month." and Year = ".date("Y")) or die(mysql_error());
+            mysql_select_db($database,$link);
+            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+            $result = mysql_query("select * from Schedule where Month = ".$month." and Year = ".$year) or die(mysql_error());
     
             if (!$result) {
                 die('Invalid query: ' . mysql_error());
@@ -55,17 +55,17 @@
                 }
             }
             
-            $result->free;
+            mysql_free_result($result);
             mysql_close($link);
             return $doctorData;
         }
         function SetupCalendar()
         {
-            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
-            $day =  (int) date("w", mktime(0, 0, 0, $month, 1, date("Y"))); // to get the first weekday
+            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+            $day =  (int) date("w", mktime(0, 0, 0, $month, 1, $year)); // to get the first weekday
 
       
-            $daysInMonth = date("t", mktime(0, 0, 0, $month, 1, date("Y"))); // number of days in the month.
+            $daysInMonth = date("t", mktime(0, 0, 0, $month, 1, $year)); // number of days in the month.
             
             
             $data = array();
@@ -101,9 +101,9 @@
             // Title
             $today = getdate();
             
-            $month = filter_var($_GET["month"],FILTER_SANITIZE_NUMBER_INT);
+            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
             
-            $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, date("Y"))).' '.date('Y'));
+            $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
 
             $this->Line(41,12.5,290,12.5);
             
