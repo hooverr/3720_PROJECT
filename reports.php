@@ -9,7 +9,7 @@
 		
 		$('#ReportForm').submit(function(event)
 					{
-						window.location.href = "action/report.php?month=" + $('select[name="ReportMonth"] option:selected').val();
+						window.location.href = "action/report.php?month=" + $('select[name="ReportMonth"] option:selected').val() + "&type="+ $('input:radio[name="reportType"]:checked').val();
 						
 						event.preventDefault();
 					});
@@ -54,7 +54,11 @@
 						mysql_close($link);
 					?>
 				</select>
-				<input style="width:150px;" type="submit" value="View Report"></input>			
+				<input style="width:150px;" type="submit" value="View Report"></input>
+				<br/>
+				<br/>
+				<input type="radio" name="reportType" value="internal" checked="checked">Internal Report&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" name="reportType" value="external">External Report
 			</form>
 		</center>
 

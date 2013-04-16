@@ -92,29 +92,51 @@
         }
         function Header()
         {
-            // Logo
-            $this->Image('logo.png',10,6,30);
-            // Arial bold 15
-            $this->SetFont('Arial','B',15);
-            // Move to the right
-            $this->Cell(30);
-            // Title
-            $today = getdate();
-            
-            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
-            
-            $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
-
-            $this->Line(41,12.5,290,12.5);
-            
-            $this->SetFont('Arial','',8);
-            $lines = file('info.txt');
-            $v = 16;
-            foreach($lines as $line)
+            $reportType = filter_var($_GET["type"],FILTER_SANITIZE_STRING);
+            if(strcmp($reportType,"external") == 0)
             {
-                $this->Text(41,$v,$line);
-                $v += 3.4;
+                $this->SetFont('Arial','',8);
+                $lines = file('info.txt');
+                $v = 16;
+                foreach($lines as $line)
+                {
+                    $this->Text(41,$v,$line);
+                    $v += 3.4;
+                }
+                
+                // Logo
+                $this->Image('logo.png',10,6,30);
+                
+                    
+                $this->SetFont('Arial','B',15);
+                // Move to the right
+                $this->Cell(30);
+                // Title
+                $today = getdate();
+                
+                list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+                
+                $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
+                
+                $this->Line(41,12.5,290,12.5);
             }
+            else
+            {
+                $this->SetFont('Arial','B',15);
+                // Move to the right
+                $this->Cell(1);
+                // Title
+                $today = getdate();
+                
+                list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+                
+                $this->Cell(0,18,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
+                $this->Line(10.5,22.5,290,22.5);
+            }
+            // Arial bold 15
+
+            
+            
             // Line break
             $this->Ln(20);
         }
