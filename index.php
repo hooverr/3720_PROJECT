@@ -56,7 +56,7 @@
         var m = date.getMonth();
         var y = date.getFullYear();	
         $('#calendar').fullCalendar({
-          firstDay:1, 
+          firstDay:0, 
           editable:true,
           disableDragging:true,
           height: 600,
@@ -94,7 +94,8 @@
           },
           eventSources: [	
             {
-            url: 'scheduleFeed.php'
+            url: 'scheduleFeed.php',
+			textColor: 'black',
             },
 			{
             url: 'requestFeed.php'
