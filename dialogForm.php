@@ -1,3 +1,4 @@
+<!-- Dialog Form for Updating a Doctor -->
 <form>
   <?php
     include_once('login.php');

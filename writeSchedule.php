@@ -1,6 +1,6 @@
+<!-- File to write a generated schedule to the database -->
 <?php
 include_once('login.php');
-
 if(isset($_REQUEST['month']) && isset($_REQUEST['year']) && isset($_REQUEST['schedule'])){
   $month = json_decode($_REQUEST['month']);
   $year = json_decode($_REQUEST['year']);
