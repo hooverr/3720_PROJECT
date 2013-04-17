@@ -84,13 +84,16 @@
 				$( 'label[name="weekendLabel"]' ).hide();
 				$( 'label[name="holidayLabel"]' ).hide();
 			}
-			var doctorID = $('select[name="doc"] option:selected').val();
-			var vals = doctorData[doctorID][0].split(" ");
-			$('input[name="firstName"]').val(vals[0]);
-			$('input[name="lastName"]').val(vals[1]);
-			$('input[name="phoneNumber"]').val( doctorData[doctorID][1]);
-			$( 'input[name="startDatePicker"]' ).val( doctorData[doctorID][2]);
-			$( 'input[name="endDatePicker"]' ).val( doctorData[doctorID][3]);
+			if($('select[name="doc"] option:selected').val())
+			{
+				var doctorID = $('select[name="doc"] option:selected').val();
+				var vals = doctorData[doctorID][0].split(" ");
+				$('input[name="firstName"]').val(vals[0]);
+				$('input[name="lastName"]').val(vals[1]);
+				$('input[name="phoneNumber"]').val( doctorData[doctorID][1]);
+				$( 'input[name="startDatePicker"]' ).val( doctorData[doctorID][2]);
+				$( 'input[name="endDatePicker"]' ).val( doctorData[doctorID][3]);
+			}
 		}
 			
 			
