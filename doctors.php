@@ -148,12 +148,11 @@
 											var response = data.split('-');
 											var doctorID = response[0];
 											alert(response[1]);
-											var newDoc = new Array();
-											newDoc[0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
-											newDoc[1] = $('input[name="phoneNumber"]').val();
-											newDoc[2] = $('input[name="startDatePicker"]').val();
-											newDoc[3] = $('input[name="endDatePicker"]').val();
-											doctorData.push(newDoc);
+											doctorData[doctorID] = new Array();
+											doctorData[doctorID][0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
+											doctorData[doctorID][1] = $('input[name="phoneNumber"]').val();
+											doctorData[doctorID][2] = $('input[name="startDatePicker"]').val();
+											doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
 											$('#docSelect').load("docSelect.php");
 											
 										}
