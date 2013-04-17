@@ -40,7 +40,7 @@
 				$( "#startDatePickerLabel" ).show();
 				$( 'input[name="endDatePicker"]' ).hide();
 				$( "#endDatePickerLabel" ).hide();
-				$( 'select[name="doc"]').show();
+				$( '#docSelect').show();
 				$( 'label[name="docLbl"]').show();
 				$( 'tr[name^="edit"]').show();
 				$( 'input[name="weekdays"]' ).hide();
@@ -57,7 +57,7 @@
 				$( "#startDatePickerLabel" ).show();
 				$( 'input[name="endDatePicker"]' ).hide();
 				$( "#endDatePickerLabel" ).hide();
-				$( 'select[name="doc"]').hide();
+				$( '#docSelect').hide();
 				$( 'label[name="docLbl"]').hide();
 				$( 'tr[name^="edit"]').show();
 				$( 'input[name="weekdays"]' ).show();
@@ -73,7 +73,7 @@
 				$( "#startDatePickerLabel" ).hide();
 				$( 'input[name="endDatePicker"]' ).show();
 				$( "#endDatePickerLabel" ).show();
-				$( 'select[name="doc"]').show();
+				$( '#docSelect').show();
 				$( 'label[name="docLbl"]').show();
 				$( 'tr[name^="edit"]').hide();
 				$( 'tr[name^="editD"]').show();
@@ -136,13 +136,43 @@
 									holidays	: $('input[name="holidays"]').val()
 								  },
 							success : function( data ) {
-									alert(data);
-									var doctorID = $('select[name="doc"]').val();
-									doctorData[doctorID][0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
-									doctorData[doctorID][1] = $('input[name="phoneNumber"]').val();
-									doctorData[doctorID][2] = $('input[name="startDatePicker"]').val();
-									doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
-									$("#docOpt"+doctorID).text(doctorData[doctorID][0]);
+									
+									if($("#funcSelect").val() == "Add" || 
+									$("#funcSelect").val() == "Update")
+									{
+										if($("#funcSelect").val() == "Add")
+										{
+											var response = data.split('-');
+											var doctorID = response[0];
+											alert(response[1]);
+											var newDoc = new Array();
+											newDoc[0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
+											newDoc[1] = $('input[name="phoneNumber"]').val();
+											newDoc[2] = $('input[name="startDatePicker"]').val();
+											newDoc[3] = $('input[name="endDatePicker"]').val();
+											doctorData.push(newDoc);
+											$('#docSelect').load("docSelect.php");
+											
+										}
+										else
+										{
+											alert(data);
+											var doctorID = $('select[name="doc"]').val();
+											doctorData[doctorID][0] = $('input[name="firstName"]').val() + ' ' + $('input[name="lastName"]').val();
+											doctorData[doctorID][1] = $('input[name="phoneNumber"]').val();
+											doctorData[doctorID][2] = $('input[name="startDatePicker"]').val();
+											doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
+											$('#docSelect').load("docSelect.php");
+										}
+										
+									}
+									else
+									{
+								
+										alert(data);
+										var doctorID = $('select[name="doc"]').val();
+										doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
+									}
 									$('#doctorHistory').load('doctorStats.php');
 								}
 							});
@@ -184,29 +214,12 @@
 										<label name="docLbl">Select a Doctor:</label>
 									</td>
 									<td>
-										<select name = "doc" onchange="changeFunc()" style="width: 150px;">
-											<?php
+										<div id="docSelect">
+										<?php
 												
-												$link = mysql_connect($host,$username,$password);
-												if (!$link) {
-												    die('Could not connect: ' . mysql_error());
-												}
-								
-												mysql_select_db($database,$link);
-			
-												$result = mysql_query('SELECT * from Doctor');
-												if (!$result) {
-												    die('Invalid query: ' . mysql_error());
-												}
-			
-												while ($row = mysql_fetch_assoc($result)) {
-												    echo "<option id=\"docOpt".$row['Doctor_ID']."\" value=\"".$row['Doctor_ID']."\">".$row['Name']."</option>";
-												}
-			
-												mysql_free_result($result);
-												mysql_close($link);
-											?>
-										</select>
+											include('docSelect.php');
+										?>
+										</div>
 									</td>
 								</tr>
 								<tr name="editFirstName">

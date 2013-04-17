@@ -32,7 +32,7 @@
             $doctorID = mysql_insert_id();
             $qry = "update Doctor_History set `Previous_Weekday` = ".$weekdays.", `Previous_Weekend`=".$weekends.", `Previous_Holiday`=".$holidays." where Doctor_ID = ".$doctorID;
             mysql_query($qry) or die(mysql_error());
-            print("Doctor added successfully!");
+            printf("%d-Doctor added successfully!",$doctorID);
         }
         else if($_POST["func"] == "Remove")
         {
