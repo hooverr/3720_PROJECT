@@ -63,7 +63,8 @@
         }
         function SetupCalendar()
         {
-            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+	    $chars = preg_split('/-/', filter_var($_GET["month"],FILTER_SANITIZE_STRING), -1, PREG_SPLIT_OFFSET_CAPTURE);
+            $month = $chars[0][0]; $year = $chars[1][0];
             $day =  (int) date("w", mktime(0, 0, 0, $month, 1, $year)); // to get the first weekday
 
       
@@ -115,8 +116,9 @@
                 $this->Cell(30);
                 // Title
                 $today = getdate();
-                
-                list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+		    
+		$chars = preg_split('/-/', filter_var($_GET["month"],FILTER_SANITIZE_STRING), -1, PREG_SPLIT_OFFSET_CAPTURE);
+		$month = $chars[0][0]; $year = $chars[1][0];
                 
                 $this->Cell(30,0,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
                 
@@ -129,8 +131,9 @@
                 $this->Cell(1);
                 // Title
                 $today = getdate();
-                
-                list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+		    
+		$chars = preg_split('/-/', filter_var($_GET["month"],FILTER_SANITIZE_STRING), -1, PREG_SPLIT_OFFSET_CAPTURE);
+		$month = $chars[0][0]; $year = $chars[1][0];
                 
                 $this->Cell(0,18,'Schedule for '.date("F", mktime(0, 0, 0, $month, 1, $year)).' '.$year);
                 $this->Line(10.5,22.5,290,22.5);
