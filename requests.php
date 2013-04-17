@@ -38,7 +38,7 @@
 								doc		: $('select[name="requestDoctor"]').val(),
 								requestType	: $('input:radio[name="requestType"]:checked').val(),
 								startDatePicker	: $('input[name="requestStartDatePicker"]').val(),
-								requestEndDatePicker	: $('input[name="requestEndDatePicker"]').val()
+								endDatePicker	: $('input[name="requestEndDatePicker"]').val()
 							  },
 						success : function( data ) {
 							alert(data);
