@@ -38,7 +38,9 @@
             }
     
             mysql_select_db($database,$link);
-            list($month, $year) = split("-", filter_var($_GET["month"],FILTER_SANITIZE_STRING), 2);
+	    
+	    $chars = preg_split('/-/', filter_var($_GET["month"],FILTER_SANITIZE_STRING), -1, PREG_SPLIT_OFFSET_CAPTURE);
+            $month = $chars[0][0]; $year = $chars[1][0];
             $result = mysql_query("select * from Schedule where Month = ".$month." and Year = ".$year) or die(mysql_error());
     
             if (!$result) {
