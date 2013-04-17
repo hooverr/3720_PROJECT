@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `doctor` (
   `Start_Date` date NOT NULL,
   `End_Date` date DEFAULT NULL,
   PRIMARY KEY (`Doctor_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Triggers `doctor`

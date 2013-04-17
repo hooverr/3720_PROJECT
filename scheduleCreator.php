@@ -81,8 +81,7 @@ class ScheduleCreator{
       
       //Color options for doctors
       //@todo create a color for the number of unique doctors
-      $colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd");							
-      
+      $colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd");
       
       //index, increments for each day scheduled 
       $day  = 1;	

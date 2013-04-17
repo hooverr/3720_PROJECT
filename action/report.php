@@ -30,7 +30,7 @@
         function GetDoctorData()
         {
             include('../login.php');
-	    $colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd");							
+	    $colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd");
             $names = $this->getDoctorNames();
             $link = mysql_connect($host,$username,$password);
             if (!$link) {
