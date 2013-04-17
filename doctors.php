@@ -29,6 +29,7 @@
 			mysql_free_result($result);
 			mysql_close($link);
 		?>
+		
 		function changeFunc()
 		{
 			$('input[name="docSubmit"]').val($("#funcSelect").val());
@@ -94,6 +95,7 @@
 			
 			
 		$(function() {
+		$("#doctorHistory").load('doctorStats.php');
 		if(!statsVisible)
 		{
 			$('#doctorHistory').hide();
@@ -141,6 +143,7 @@
 									doctorData[doctorID][2] = $('input[name="startDatePicker"]').val();
 									doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
 									$("#docOpt"+doctorID).text(doctorData[doctorID][0]);
+									$('#doctorHistory').load('doctorStats.php');
 								}
 							});
 					}
@@ -286,34 +289,9 @@
 				</table>				
 				<input id="statsButton" type="checkbox"/><label for="statsButton" style="width: 100%;">View Doctor Statistics</label>
 				<div id='doctorHistory' >
-					<table style="width:100%; text-align: center;" class="ui-widget-content ui-corner-all">
-						<tr style="border-style:solid; font-size: small;" class="ui-widget-header ui-corner-all"><th>Name</th><th>Start Date</th><th>End Date</th><th>Weekdays</th><th>Weekends</th><th>Holidays</th></tr>
-						<?php
-							
-							include('login.php');	
-							$colors = array("#7d7d7d","#7d9dbd","#7dbdfd","#7dfd9d","#9d7ddd","#9dbd7d","#9dddbd","#9dfdfd","#bd9d9d","#bdbddd","#bdfd7d","#dd7dbd","#dd9dfd","#dddd9d","#ddfddd","#fd9d7d","#fdbdbd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd","#fdddfd");							
-							
-							$link = mysql_connect($host,$username,$password);
-							if (!$link) {
-							    die('Could not connect: ' . mysql_error());
-							}
-			
-							mysql_select_db($database,$link);
-			
-							$result = mysql_query('SELECT `Name`,`Start_Date`,`End_Date`,`Weekday`,`Weekend`,`Holiday`,`Doctor`.`Doctor_ID` from Doctor_History, Doctor WHERE Doctor_History.Doctor_ID = Doctor.Doctor_ID');
-							if (!$result) {
-							    die('Invalid query: ' . mysql_error());
-							}
-			
-							while ($row = mysql_fetch_assoc($result)) {
-								$color = $colors[intval($row['Doctor_ID']) % count($colors)];
-								echo "<tr><td style=\"background-color: #eeeeee; text-align: left; border:2px solid ".$color.";\">".$row['Name']."</td><td style=\"border-bottom:1px solid #dddddd;\">".$row['Start_Date']."</td><td  style=\"background-color: #eeeeee;  border-bottom:1px solid #dddddd;\">".$row['End_Date']."&nbsp</td><td style=\"border-bottom:1px solid #dddddd;\">".$row['Weekday']."</td><td style=\"background-color: #eeeeee;  border-bottom:1px solid #dddddd;\">".$row['Weekend']."</td><td style=\"border-bottom:1px solid #dddddd;\">".$row['Holiday']."</td><td style=\"border-bottom:1px solid #dddddd;\">"."</td></tr>";
-							}
-			
-							mysql_free_result($result);
-							mysql_close($link);
-						?>
-					</table>
+					<?php				
+						include('doctorStats.php');
+					?>
 				</div>
 			</form>
       
