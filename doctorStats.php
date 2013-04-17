@@ -1,5 +1,5 @@
 <table style="width:100%; text-align: center;" class="ui-widget-content ui-corner-all">
-	<tr style="border-style:solid; font-size: small;" class="ui-widget-header ui-corner-all"><th>Name</th><th>Start Date</th><th>End Date</th><th>Weekdays</th><th>Weekends</th><th>Holidays</th><th>Previous Weekdays</th><th>Previous Weekends</th><th>Previous Holidays</th></tr>
+	<tr style="border-style:solid; font-size: small;" class="ui-widget-header ui-corner-all"><th>Name</th><th>Start Date</th><th>End Date</th><th>Weekdays</th><th>Weekends</th><th>Holidays</th><th>Previous<br/>Weekdays</th><th>Previous<br/>Weekends</th><th>Previous<br/>Holidays</th></tr>
 	<?php
 		
 		include('login.php');	
