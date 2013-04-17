@@ -1,8 +1,33 @@
 <?php
+/*
+  Class: updateSchedule
+  
+  Updates a schedule based on information given by dialog form.
+*/
 include_once("holidayCreator.php");
 include('login.php');
 class updateSchedule{
+  
+    /*
+    Function: isHoliday
+     
+    Checks if a given day is a holiday
+    
+    Parameters:
+    $day - day to be updated
+    $month - month of day to be updated
+    $year - year of day to be updated
+    $numberOfDaysCurrentMonth - the number of days in the current month
+    $numberOfDaysPreviousMonth - the number of days in the previous month
+      
+    Returns:
+      
+    A boolean value for if a day is a holiday.
+      
+  */
+  
   private function isHoliday($day,$month,$year,$numberOfDaysCurrentMonth,$numberOfDaysPreviousMonth){
+    //check if day is past number of days for current month or before current month
     if($day < 1){
       $day = $numberOfDaysPreviousMonth - abs($day);
       $month = $month -1;
@@ -25,8 +50,23 @@ class updateSchedule{
     }
     return $isHoliday;
   }
-  
+    /*
+    Function: weekend
+     
+    Updates a weekend day in the database.
+    
+    Parameters:
+    $day - day to be updated
+    $month - month of day to be updated
+    $year - year of day to be updated
+    $oldDoctor - id of the previous doctor
+    $newDoctor - id of the new doctor
+    $numberOfDaysCurrentMonth - the number of days in the current month
+    $numberOfDaysPreviousMonth - the number of days in the previous month
+      
+  */
   private function weekend($day,$month,$year,$oldDoctor,$newDoctor,$numberOfDaysCurrentMonth,$numberOfDaysPreviousMonth){
+    //check if day is past number of days for current month or before current month
     if($day < 1){
       $day = $numberOfDaysPreviousMonth - abs($day);
       $month = $month -1;
@@ -43,8 +83,24 @@ class updateSchedule{
     $mysqli->multi_query($query);
     $mysqli->close();
   }
-  
+   /*
+    Function: holiday
+     
+    Updates a holiday day in the database.
+    
+    Parameters:
+    $day - day to be updated
+    $month - month of day to be updated
+    $year - year of day to be updated
+    $oldDoctor - id of the previous doctor
+    $newDoctor - id of the new doctor
+    $numberOfDaysCurrentMonth - the number of days in the current month
+    $numberOfDaysPreviousMonth - the number of days in the previous month
+    
+      
+  */
   private function holiday($day,$month,$year,$oldDoctor,$newDoctor,$numberOfDaysCurrentMonth,$numberOfDaysPreviousMonth){
+    //check if day is past number of days for current month or before current month
     if($day < 1){
       $day = $numberOfDaysPreviousMonth - abs($day);
       $month = $month -1;
@@ -61,8 +117,23 @@ class updateSchedule{
     $mysqli->multi_query($query);
     $mysqli->close();
   }
-  
+  /*
+    Function: weekday
+     
+    Updates a weekday day in the database.
+    
+    Parameters:
+    $day - day to be updated
+    $month - month of day to be updated
+    $year - year of day to be updated
+    $oldDoctor - id of the previous doctor
+    $newDoctor - id of the new doctor
+    $numberOfDaysCurrentMonth - the number of days in the current month
+    $numberOfDaysPreviousMonth - the number of days in the previous month
+      
+  */
   private function weekday($day,$month,$year,$oldDoctor,$newDoctor,$numberOfDaysCurrentMonth,$numberOfDaysPreviousMonth){
+    //check if day is past number of days for current month or before current month\
     if($day < 1){
       $day = $numberOfDaysPreviousMonth - abs($day);
       $month = $month -1;
@@ -79,7 +150,17 @@ class updateSchedule{
     $mysqli->multi_query($query);
     $mysqli->close();
   }
-  
+  /*
+    Function: update
+     
+    Parameters:
+    $day - day to be updated
+    $month - month of day to be updated
+    $year - year of day to be updated
+    $oldDoctor - id of the previous doctor
+    $newDoctor - id of the new doctor
+      
+  */
   public function update($day,$month,$year,$oldDoctor,$newDoctor){
     $date = date("N",strtotime("$month/$day/$year"));
     
