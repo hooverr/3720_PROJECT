@@ -11,15 +11,15 @@
 				dateFormat: "yy-mm-dd", 
                 numberOfMonths: 1,
                 onSelect: function(selected) {
-					$('input[name="endDatePicker"]').datepicker("option","minDate", selected)
+					$('input[name="requestEndDatePicker"]').datepicker("option","minDate", selected)
 				}
 
 			});
 		
 		
-		//$( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
+		//$( 'input[name="requestEndDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
 		
-		$( 'input[name="endDatePicker"]' ).datepicker({ 
+		$( 'input[name="requestEndDatePicker"]' ).datepicker({ 
 				dateFormat: "yy-mm-dd", 
                 numberOfMonths: 1,
                 onSelect: function(selected) {
@@ -38,7 +38,7 @@
 								doc		: $('select[name="requestDoctor"]').val(),
 								requestType	: $('input:radio[name="requestType"]:checked').val(),
 								startDatePicker	: $('input[name="requestStartDatePicker"]').val(),
-								endDatePicker	: $('input[name="endDatePicker"]').val()
+								requestEndDatePicker	: $('input[name="requestEndDatePicker"]').val()
 							  },
 						success : function( data ) {
 							alert(data);
@@ -109,10 +109,10 @@
 								</tr>
 								<tr>
 									<td>
-										<label id="endDatePickerLabel">Select Ending Date:</label>
+										<label id="requestEndDatePickerLabel">Select Ending Date:</label>
 									</td>
 									<td>
-										<input style="width: 98%;" type="text" name="endDatePicker"></input>
+										<input style="width: 98%;" type="text" name="requestEndDatePicker"></input>
 									</td>
 								</tr>
 								<tr>
