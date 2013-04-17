@@ -98,7 +98,8 @@
 			textColor: 'black',
             },
 			{
-            url: 'requestFeed.php'
+            url: 'requestFeed.php',
+			textColor: 'black'
             },
             {
             url: 'holidayFeed.php',
