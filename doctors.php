@@ -30,6 +30,12 @@
 			mysql_close($link);
 		?>
 		
+		/*
+		    Function: changeFunc
+		 
+		    Called when the Doctor page function changes. It updates/changes/modifies the visible controls on the page based on the current page function.
+		 		 
+		 */
 		function changeFunc()
 		{
 			$('input[name="docSubmit"]').val($("#funcSelect").val());
@@ -53,6 +59,11 @@
 			}
 			else if($("#funcSelect").val() == "Add")
 			{
+				$('input[name="firstName"]').val("");
+				$('input[name="lastName"]').val("");
+				$('input[name="phoneNumber"]').val("");
+				$( 'input[name="startDatePicker"]' ).val("");
+				$( 'input[name="endDatePicker"]' ).val("");
 				$( 'input[name="startDatePicker"]' ).show();
 				$( "#startDatePickerLabel" ).show();
 				$( 'input[name="endDatePicker"]' ).hide();
@@ -84,7 +95,7 @@
 				$( 'label[name="weekendLabel"]' ).hide();
 				$( 'label[name="holidayLabel"]' ).hide();
 			}
-			if($('select[name="doc"] option:selected').val())
+			if($('select[name="doc"] option:selected').val() && $("#funcSelect").val() != "Add")
 			{
 				var doctorID = $('select[name="doc"] option:selected').val();
 				var vals = doctorData[doctorID][0].split(" ");
@@ -175,6 +186,11 @@
 										var doctorID = $('select[name="doc"]').val();
 										doctorData[doctorID][3] = $('input[name="endDatePicker"]').val();
 									}
+									$('input[name="firstName"]').val("");
+									$('input[name="lastName"]').val("");
+									$('input[name="phoneNumber"]').val("");
+									$( 'input[name="startDatePicker"]' ).val("");
+									$( 'input[name="endDatePicker"]' ).val("");
 									$('#doctorHistory').load('doctorStats.php');
 								}
 							});

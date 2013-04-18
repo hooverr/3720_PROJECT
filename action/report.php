@@ -2,6 +2,20 @@
     require('fpdf.php');
     class PDF extends FPDF
     {
+        /*
+            Function: hTRGB
+         
+            Converts a hex color to rgb values
+         
+            Parameters:
+         
+               hexColor - The hex color to convert.
+         
+            Returns:
+         
+               An array with the rgb colors indexed by 'red','green', and 'blue'
+         
+         */
         function hTRGB($hexColor)
         {
             $rgb = array();
@@ -11,6 +25,16 @@
             
             return $rgb;
         }
+        /*
+            Function: getDoctorNames()
+         
+            Queries the database for doctor names.
+                  
+            Returns:
+         
+               An array, in which the id is the doctor id, and the value is the doctor name.
+         
+         */
         function getDoctorNames()
         {
             include('../login.php');
@@ -27,6 +51,17 @@
             $mysqli->close();
             return $nameArray;
         }
+        /*
+            Function: GetDoctorData()
+         
+            This function basically creates an array of doctors, for the calendar. 
+         
+         
+            Returns:
+         
+            The Array
+         
+         */
         function GetDoctorData()
         {
             include('../login.php');
@@ -61,6 +96,14 @@
             mysql_close($link);
             return $doctorData;
         }
+        
+        /*
+            Function: SetupCalendar()
+         
+            A function to setup the calendar. It adds the month and year information.
+         
+         
+         */
         function SetupCalendar()
         {
 	    $chars = preg_split('/-/', filter_var($_GET["month"],FILTER_SANITIZE_STRING), -1, PREG_SPLIT_OFFSET_CAPTURE);
@@ -93,6 +136,13 @@
             //print_r( $data);
             return $data;
         }
+        /*
+            Function: Header
+         
+            Used to create the report header. Adds the logo image, if needed, and the info.text information if needed.
+         
+         
+         */
         function Header()
         {
             $reportType = filter_var($_GET["type"],FILTER_SANITIZE_STRING);
@@ -146,6 +196,18 @@
             $this->Ln(20);
         }
 
+        /*
+            Function: DrawCalendar
+         
+            For the most part, this creates the entire calendar.
+         
+            Parameters:
+         
+               header - In our case, the day order.
+               dayData - Basically, the position of the days from 1-31 on the calendar.
+               doctorData - The doctor information, including color, to be displayed
+                  
+         */
         function DrawCalendar($header, $dayData, $doctorData)
         {
             // Colors, line width and bold font
