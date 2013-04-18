@@ -48,7 +48,10 @@
     Set up the calendar
     -->
     <script type='text/javascript'>  
+		// variable: contains the year of the last schedule made
       var lastScheduleYear = <?php echo $year; ?>;
+	  
+		// variable: contains the month of the last schedule made
       var lastScheduleMonth = <?php echo $month-1 ?>;
       $(document).ready(function() {
         var date = new Date();
@@ -76,6 +79,9 @@
             lastScheduleDate.setYear(lastScheduleYear);
             lastScheduleDate.setMonth(lastScheduleMonth);
             
+			// if statement to show/hide the generate schedule button
+			// based on whether the month being viewed is greater than the current date
+			// and whether the month being viewed is greater than the last schedule generated
             if(calendarViewDate >= currentDate && calendarViewDate > lastScheduleDate){
               $('#schedule').show();  
             }else{      
@@ -94,15 +100,15 @@
           },
           eventSources: [	
             {
-            url: 'scheduleFeed.php',
+            url: 'scheduleFeed.php', // display the shedules on the calendar
 			textColor: 'black',
             },
 			{
-            url: 'requestFeed.php',
+            url: 'requestFeed.php', // display the requests on the calendar
 			textColor: 'black'
             },
             {
-            url: 'holidayFeed.php',
+            url: 'holidayFeed.php', // display the holidays on the calendar
             color: 'black',
             textColor: 'white',
             }
@@ -139,6 +145,17 @@
         });
       });
       
+	  /*
+		Function: update
+		
+		Updates the change made to a doctor scheduled for a given day
+		
+		Parameters:
+		
+			newDoctor - the doctor selected to be scheduled
+			oldDoctor - the doctor previously scheduled
+			date - the date of the schedule change
+	  */
       function update(newDoctor,oldDoctor,date){
        var date = new Date(date);
        var month = date.getMonth() +1; //sending to php which uses a normal month numbering system
