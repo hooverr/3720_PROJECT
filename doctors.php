@@ -62,7 +62,6 @@
 				$('input[name="firstName"]').val("");
 				$('input[name="lastName"]').val("");
 				$('input[name="phoneNumber"]').val("");
-				$( 'input[name="startDatePicker"]' ).val("");
 				$( 'input[name="endDatePicker"]' ).val("");
 				$( 'input[name="startDatePicker"]' ).show();
 				$( "#startDatePickerLabel" ).show();
@@ -114,7 +113,7 @@
 		{
 			$('#doctorHistory').hide();
 		}
-		$( 'input[name="startDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd", maxDate: "+2M" });
+		$( 'input[name="startDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd", maxDate: "+1M" });
 	
 		$( 'input[name="endDatePicker"]' ).datepicker({ dateFormat: "yy-mm-dd" });
 		$('#statsButton').button().click(function()
